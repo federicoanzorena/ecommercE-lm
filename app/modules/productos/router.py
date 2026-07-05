@@ -2,8 +2,11 @@ from fastapi import APIRouter, Depends, status
 from sqlmodel import Session
 
 from app.core.database import get_session
-from app.modules.productos.schemas import ProductoCreate, ProductoRead, ProductoUpdate
+from app.modules.productos.schemas import ProductoCreate, ProductoPaginado, ProductoRead, ProductoUpdate
 from app.modules.productos.service import ProductoService
+
+from fastapi import Query
+
 
 router = APIRouter()
 
@@ -34,3 +37,23 @@ def update_producto(
 @router.delete("/{producto_id}", response_model=ProductoRead)
 def anular_producto(producto_id: int, svc: ProductoService = Depends(get_producto_service)):
     return svc.anular(producto_id)
+
+
+@router.get("", response_model=ProductoPaginado)
+def list_productos(
+    texto: str | None = Query(default=None),
+    categoria_id: int | None = Query(default=None),
+    sort_by: str = Query(default="id"),
+    sort_dir: str = Query(default="asc"),
+    page: int = Query(default=1, ge=1),
+    page_size: int = Query(default=10, ge=1, le=100),
+    svc: ProductoService = Depends(get_producto_service),
+):
+    return svc.list(
+        texto=texto,
+        categoria_id=categoria_id,
+        sort_by=sort_by,
+        sort_dir=sort_dir,
+        page=page,
+        page_size=page_size,
+    )    

@@ -32,3 +32,10 @@ class ProductoRead(SQLModel):
     imagen_url: str
     categoria: CategoriaBrief
     stock_total: int
+
+class ProductoPaginado(SQLModel):
+    items: list[ProductoRead]
+    total: int
+    page: int
+    page_size: int
+    total_pages: int    
