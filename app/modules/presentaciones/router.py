@@ -2,7 +2,11 @@ from fastapi import APIRouter, Depends, status
 from sqlmodel import Session
 
 from app.core.database import get_session
-from app.modules.presentaciones.schemas import PresentacionCreate, PresentacionRead
+from app.modules.presentaciones.schemas import (
+    PresentacionCreate,
+    PresentacionRead,
+    PresentacionUpdate,
+)
 from app.modules.presentaciones.service import PresentacionService
 
 router = APIRouter()
@@ -26,3 +30,20 @@ def get_presentacion(
     svc: PresentacionService = Depends(get_presentacion_service),
 ):
     return svc.get(presentacion_id)
+
+
+@router.patch("/{presentacion_id}", response_model=PresentacionRead)
+def update_presentacion(
+    presentacion_id: int,
+    data: PresentacionUpdate,
+    svc: PresentacionService = Depends(get_presentacion_service),
+):
+    return svc.update(presentacion_id, data)
+
+
+@router.delete("/{presentacion_id}", response_model=PresentacionRead)
+def anular_presentacion(
+    presentacion_id: int,
+    svc: PresentacionService = Depends(get_presentacion_service),
+):
+    return svc.anular(presentacion_id)

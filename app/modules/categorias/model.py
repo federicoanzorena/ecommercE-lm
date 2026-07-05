@@ -13,6 +13,7 @@ class Categoria(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
     nombre: str = Field(index=True)
     descripcion: str
+    activo: bool = Field(default=True)
 
     # lado "1" de la relacion 1:N -> una categoria tiene muchos productos
     productos: list["Producto"] = Relationship(back_populates="categoria")

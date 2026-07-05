@@ -12,7 +12,11 @@ class Presentacion(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
     color: str
     talla: str
+    imagen_url: str | None = None   # opcional: si no viene, el frontend usa la del Producto
+
     stock: int = Field(default=0, ge=0)
+    activo: bool = Field(default=True)
+
 
     # N:1 -> muchas presentaciones pertenecen a un producto
     producto_id: int = Field(foreign_key="productos.id")

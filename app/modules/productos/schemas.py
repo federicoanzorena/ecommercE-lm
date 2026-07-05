@@ -14,6 +14,16 @@ class ProductoCreate(SQLModel):
     categoria_id: int
 
 
+class ProductoUpdate(SQLModel):
+    nombre: str | None = None
+    precio: float | None = None
+    descripcion: str | None = None
+    imagen_url: str | None = None
+    categoria_id: int | None = None    
+
+    
+
+
 class ProductoRead(SQLModel):
     id: int
     nombre: str

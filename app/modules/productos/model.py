@@ -15,6 +15,7 @@ class Producto(SQLModel, table=True):
     precio: float = Field(ge=0)
     descripcion: str
     imagen_url: str
+    activo: bool = Field(default=True)
 
     # N:1 obligatoria -> todo producto pertenece a una categoria
     categoria_id: int = Field(foreign_key="categorias.id")
@@ -25,5 +26,4 @@ class Producto(SQLModel, table=True):
 
     @property
     def stock_total(self) -> int:
-        """Calculado, no se guarda en la tabla: suma el stock de todas las presentaciones."""
-        return sum(p.stock for p in self.presentaciones)
+        return sum(p.stock for p in self.presentaciones if p.activo)

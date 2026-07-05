@@ -4,7 +4,11 @@ from sqlmodel import Session
 from app.core.uow import UnitOfWork
 from app.modules.presentaciones.model import Presentacion
 from app.modules.presentaciones.repository import PresentacionRepository
-from app.modules.presentaciones.schemas import PresentacionCreate, PresentacionRead
+from app.modules.presentaciones.schemas import (
+    PresentacionCreate,
+    PresentacionRead,
+    PresentacionUpdate,
+)
 from app.modules.productos.repository import ProductoRepository
 
 
@@ -24,7 +28,40 @@ class PresentacionService:
     def get(self, presentacion_id: int) -> PresentacionRead:
         with UnitOfWork(self._session) as uow:
             repo = PresentacionRepository(uow.session)
-            presentacion = repo.get_by_id(presentacion_id)
-            if presentacion is None:
-                raise HTTPException(status.HTTP_404_NOT_FOUND, "Presentacion no existe")
+            presentacion = self._obtener_o_404(repo, presentacion_id)
             return PresentacionRead.model_validate(presentacion, from_attributes=True)
+
+    def update(self, presentacion_id: int, data: PresentacionUpdate) -> PresentacionRead:
+        with UnitOfWork(self._session) as uow:
+            repo = PresentacionRepository(uow.session)
+            presentacion = self._obtener_o_404(repo, presentacion_id)
+
+            cambios = data.model_dump(exclude_unset=True)
+
+            if "producto_id" in cambios:
+                productos_repo = ProductoRepository(uow.session)
+                if productos_repo.get_by_id(cambios["producto_id"]) is None:
+                    raise HTTPException(status.HTTP_404_NOT_FOUND, "Producto no existe")
+
+            for campo, valor in cambios.items():
+                setattr(presentacion, campo, valor)
+
+            repo.update(presentacion)
+            return PresentacionRead.model_validate(presentacion, from_attributes=True)
+
+    def anular(self, presentacion_id: int) -> PresentacionRead:
+        with UnitOfWork(self._session) as uow:
+            repo = PresentacionRepository(uow.session)
+            presentacion = self._obtener_o_404(repo, presentacion_id)
+            if not presentacion.activo:
+                raise HTTPException(status.HTTP_409_CONFLICT, "La presentacion ya esta anulada")
+            presentacion.activo = False
+            repo.update(presentacion)
+            return PresentacionRead.model_validate(presentacion, from_attributes=True)
+
+    @staticmethod
+    def _obtener_o_404(repo: PresentacionRepository, presentacion_id: int) -> Presentacion:
+        presentacion = repo.get_by_id(presentacion_id)
+        if presentacion is None:
+            raise HTTPException(status.HTTP_404_NOT_FOUND, "Presentacion no existe")
+        return presentacion
