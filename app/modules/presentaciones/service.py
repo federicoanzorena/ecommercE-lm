@@ -40,7 +40,9 @@ class PresentacionService:
             presentacion = self._obtener_o_404(repo, presentacion_id)
             return PresentacionRead.model_validate(presentacion, from_attributes=True)
 
-    def update(self, presentacion_id: int, data: PresentacionUpdate) -> PresentacionRead:
+    def update(
+        self, presentacion_id: int, data: PresentacionUpdate
+    ) -> PresentacionRead:
         with UnitOfWork(self._session) as uow:
             repo = PresentacionRepository(uow.session)
             presentacion = self._obtener_o_404(repo, presentacion_id)
@@ -63,13 +65,17 @@ class PresentacionService:
             repo = PresentacionRepository(uow.session)
             presentacion = self._obtener_o_404(repo, presentacion_id)
             if not presentacion.activo:
-                raise HTTPException(status.HTTP_409_CONFLICT, "La presentacion ya esta anulada")
+                raise HTTPException(
+                    status.HTTP_409_CONFLICT, "La presentacion ya esta anulada"
+                )
             presentacion.activo = False
             repo.update(presentacion)
             return PresentacionRead.model_validate(presentacion, from_attributes=True)
 
     @staticmethod
-    def _obtener_o_404(repo: PresentacionRepository, presentacion_id: int) -> Presentacion:
+    def _obtener_o_404(
+        repo: PresentacionRepository, presentacion_id: int
+    ) -> Presentacion:
         presentacion = repo.get_by_id(presentacion_id)
         if presentacion is None:
             raise HTTPException(status.HTTP_404_NOT_FOUND, "Presentacion no existe")

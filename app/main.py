@@ -20,7 +20,9 @@ app = FastAPI(title="Ecommerce API", version="1.0", lifespan=lifespan)
 
 app.include_router(categorias_router, prefix="/api/v1/categorias", tags=["categorias"])
 app.include_router(productos_router, prefix="/api/v1/productos", tags=["productos"])
-app.include_router(presentaciones_router, prefix="/api/v1/presentaciones", tags=["presentaciones"])
+app.include_router(
+    presentaciones_router, prefix="/api/v1/presentaciones", tags=["presentaciones"]
+)
 app.include_router(ordenes_router, prefix="/api/v1/ordenes", tags=["ordenes"])
 
 

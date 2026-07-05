@@ -12,7 +12,9 @@ from app.modules.presentaciones.service import PresentacionService
 router = APIRouter()
 
 
-def get_presentacion_service(session: Session = Depends(get_session)) -> PresentacionService:
+def get_presentacion_service(
+    session: Session = Depends(get_session),
+) -> PresentacionService:
     return PresentacionService(session)
 
 

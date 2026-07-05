@@ -2,8 +2,15 @@ from fastapi import APIRouter, Depends, status
 from sqlmodel import Session
 
 from app.core.database import get_session
-from app.modules.categorias.schemas import CategoriaCreate, CategoriaRead, CategoriaUpdate
+from app.modules.categorias.schemas import (
+    CategoriaCreate,
+    CategoriaPaginado,
+    CategoriaRead,
+    CategoriaUpdate,
+)
 from app.modules.categorias.service import CategoriaService
+
+from fastapi import Query
 
 router = APIRouter()
 
@@ -13,12 +20,25 @@ def get_categoria_service(session: Session = Depends(get_session)) -> CategoriaS
 
 
 @router.post("", response_model=CategoriaRead, status_code=status.HTTP_201_CREATED)
-def create_categoria(data: CategoriaCreate, svc: CategoriaService = Depends(get_categoria_service)):
+def create_categoria(
+    data: CategoriaCreate, svc: CategoriaService = Depends(get_categoria_service)
+):
     return svc.create(data)
 
 
+@router.get("", response_model=CategoriaPaginado)
+def list_categorias(
+    page: int = Query(default=1, ge=1),
+    page_size: int = Query(default=10, ge=1, le=100),
+    svc: CategoriaService = Depends(get_categoria_service),
+):
+    return svc.list(page=page, page_size=page_size)
+
+
 @router.get("/{categoria_id}", response_model=CategoriaRead)
-def get_categoria(categoria_id: int, svc: CategoriaService = Depends(get_categoria_service)):
+def get_categoria(
+    categoria_id: int, svc: CategoriaService = Depends(get_categoria_service)
+):
     return svc.get(categoria_id)
 
 
@@ -32,5 +52,7 @@ def update_categoria(
 
 
 @router.delete("/{categoria_id}", response_model=CategoriaRead)
-def anular_categoria(categoria_id: int, svc: CategoriaService = Depends(get_categoria_service)):
+def anular_categoria(
+    categoria_id: int, svc: CategoriaService = Depends(get_categoria_service)
+):
     return svc.anular(categoria_id)
