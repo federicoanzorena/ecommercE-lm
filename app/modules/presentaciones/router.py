@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, Query, status
 from sqlmodel import Session
 
 from app.core.database import get_session
@@ -14,6 +14,14 @@ router = APIRouter()
 
 def get_presentacion_service(session: Session = Depends(get_session)) -> PresentacionService:
     return PresentacionService(session)
+
+
+@router.get("", response_model=list[PresentacionRead])
+def list_presentaciones(
+    producto_id: int = Query(...),
+    svc: PresentacionService = Depends(get_presentacion_service),
+):
+    return svc.list_by_producto(producto_id)
 
 
 @router.post("", response_model=PresentacionRead, status_code=status.HTTP_201_CREATED)

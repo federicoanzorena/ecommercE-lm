@@ -25,6 +25,15 @@ class PresentacionService:
             presentacion = presentaciones_repo.create(Presentacion(**data.model_dump()))
             return PresentacionRead.model_validate(presentacion, from_attributes=True)
 
+    def list_by_producto(self, producto_id: int) -> list[PresentacionRead]:
+        with UnitOfWork(self._session) as uow:
+            repo = PresentacionRepository(uow.session)
+            presentaciones = repo.get_by_producto(producto_id)
+            return [
+                PresentacionRead.model_validate(p, from_attributes=True)
+                for p in presentaciones
+            ]
+
     def get(self, presentacion_id: int) -> PresentacionRead:
         with UnitOfWork(self._session) as uow:
             repo = PresentacionRepository(uow.session)
