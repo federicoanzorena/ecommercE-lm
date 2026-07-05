@@ -1,0 +1,28 @@
+from fastapi import APIRouter, Depends, status
+from sqlmodel import Session
+
+from app.core.database import get_session
+from app.modules.presentaciones.schemas import PresentacionCreate, PresentacionRead
+from app.modules.presentaciones.service import PresentacionService
+
+router = APIRouter()
+
+
+def get_presentacion_service(session: Session = Depends(get_session)) -> PresentacionService:
+    return PresentacionService(session)
+
+
+@router.post("", response_model=PresentacionRead, status_code=status.HTTP_201_CREATED)
+def create_presentacion(
+    data: PresentacionCreate,
+    svc: PresentacionService = Depends(get_presentacion_service),
+):
+    return svc.create(data)
+
+
+@router.get("/{presentacion_id}", response_model=PresentacionRead)
+def get_presentacion(
+    presentacion_id: int,
+    svc: PresentacionService = Depends(get_presentacion_service),
+):
+    return svc.get(presentacion_id)

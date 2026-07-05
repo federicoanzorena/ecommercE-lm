@@ -11,7 +11,6 @@ class ProductoCreate(SQLModel):
     precio: float
     descripcion: str
     imagen_url: str
-    stock: int = 0
     categoria_id: int
 
 
@@ -21,5 +20,5 @@ class ProductoRead(SQLModel):
     precio: float
     descripcion: str
     imagen_url: str
-    stock: int
     categoria: CategoriaBrief
+    stock_total: int

@@ -1,10 +1,10 @@
-
 from typing import TYPE_CHECKING
 
 from sqlmodel import Field, Relationship, SQLModel
 
-if TYPE_CHECKING:  # evita import circular (igual razon que en heroes-api)
+if TYPE_CHECKING:  # evita import circular
     from app.modules.categorias.model import Categoria
+    from app.modules.presentaciones.model import Presentacion
 
 
 class Producto(SQLModel, table=True):
@@ -15,8 +15,15 @@ class Producto(SQLModel, table=True):
     precio: float = Field(ge=0)
     descripcion: str
     imagen_url: str
-    stock: int = Field(default=0, ge=0)
 
-    # N:1 obligatoria -> todo producto pertenece a una categoria, sin excepcion
+    # N:1 obligatoria -> todo producto pertenece a una categoria
     categoria_id: int = Field(foreign_key="categorias.id")
     categoria: "Categoria" = Relationship(back_populates="productos")
+
+    # 1:N -> un producto tiene varias presentaciones (variantes color/talla)
+    presentaciones: list["Presentacion"] = Relationship(back_populates="producto")
+
+    @property
+    def stock_total(self) -> int:
+        """Calculado, no se guarda en la tabla: suma el stock de todas las presentaciones."""
+        return sum(p.stock for p in self.presentaciones)
