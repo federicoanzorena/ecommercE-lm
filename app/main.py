@@ -1,5 +1,5 @@
 from contextlib import asynccontextmanager
-
+from app.modules.prediccion.router import router as prediccion_router
 from fastapi import FastAPI
 
 from app.core.database import create_db_and_tables
@@ -24,6 +24,8 @@ app.include_router(
     presentaciones_router, prefix="/api/v1/presentaciones", tags=["presentaciones"]
 )
 app.include_router(ordenes_router, prefix="/api/v1/ordenes", tags=["ordenes"])
+
+app.include_router(prediccion_router, prefix="/api/v1/prediccion", tags=["prediccion"])
 
 
 @app.get("/", tags=["health"])
