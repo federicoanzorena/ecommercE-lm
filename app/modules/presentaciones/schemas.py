@@ -23,4 +23,5 @@ class PresentacionRead(SQLModel):
     talla: str
     imagen_url: str | None = None
     stock: int
+    activo: bool
     producto_id: int

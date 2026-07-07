@@ -15,6 +15,7 @@ class CategoriaRead(SQLModel):
     id: int
     nombre: str
     descripcion: str
+    activo: bool
 
 
 class CategoriaPaginado(SQLModel):
