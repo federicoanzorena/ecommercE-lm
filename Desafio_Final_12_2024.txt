@@ -1,0 +1,230 @@
+                                                                                          1
+
+
+
+
+                          Desafío Final
+                      Proyecto E-commerce
+Estructura para el desafío del proyecto e-commerce, organizada en secciones detalladas,
+teniendo en cuenta funcionalidades CRUD, gestión de stock y almacenamiento de órdenes de
+compra:
+
+
+Objetivo
+Desarrollar una aplicación de comercio electrónico que permita la venta de productos de un
+rubro a elección. La aplicación debe contar con un backend que gestione productos,
+categorías, stock y órdenes de compra, y un frontend que permita a los usuarios navegar y
+comprar productos.
+
+
+Arquitectura Requerida
+Back-End
+
+- Framework: FastAPI
+- ORM: SQLModel
+- Base de datos: Relacional (SQLite, MySQL o PostgreSQL)
+- Consideraciones: Patrones de diseño y buenas prácticas en desarrollo de APIs REST.
+
+Front-End
+
+- Framework: React
+- Lenguaje: TypeScript
+- Estilos: Tailwind CSS. - Opcional: Componentes preconstruidos (Flowbite, Shadcn UI, o
+Tw Elements)
+- Enrutamiento: React Router dom
+- Formularios: React Hook Form
+_ Tablas: TanStack Table
+-Fetch-mutation: TanStack Query(opcional:RTK Query)
+-Estado global: Redux Toolkit
+
+
+Sistema de control de versiones
+github o gitlab
+                                                                                               2
+
+
+
+
+Patrones y Buenas Prácticas
+
+Utilizar patrones de diseño-arquitectura y buenas prácticas.
+Utilizar principios SOLID.
+
+
+Requerimientos Funcionales
+
+1. Módulo de Productos
+- **CRUA de productos**
+  - Crear, leer, actualizar y anular productos en el backend.
+  - Campos mínimos: `id`, `nombre`, `precio`, `descripcion`, `categoria_id`, `stock`,
+`imagen_url`.
+- **Gestión de stock**
+  - Verificar y actualizar el stock de cada producto antes de confirmar una orden de compra.
+  - Validar el stock disponible cuando se intente agregar al carrito o realizar la compra.
+- **Visualización**
+  - Mostrar una lista de productos disponibles en la vista inicial (`/`).
+  - Permitir la búsqueda por categorías (`/categories/:categoryId`).
+  - Acceso a detalles de cada producto en `/item/:id` con descripción, precio, imagen, y
+selector de cantidad.
+-Permitir: Crear, leer, actualizar y anular productos en el frontend
+-**DataTable
+Utilizar pantalla de tabla de productos con: filtro de búsqueda, combos de filtro por
+categoría, permitir ordenar por columna de la tabla, paginación. Ver Anexo 1.
+
+
+2. Módulo de Categorías
+- **CRUA de categorías**
+  - Crear, leer, actualizar y anular categorías en el backend.
+  - Cada categoría debe incluir: `id`, `nombre`, y `descripcion`.
+  - Ejemplo de formato para rutas: `/categories/calzado`.
+- **Navegación por categorías**
+  - Menú desplegable en el frontend para seleccionar una categoría y visualizar productos
+asociados.
+-Permitir: Crear, leer, actualizar y anular categorías en el frontend
+
+
+3. Carrito de Compras
+                                                                                            3
+
+
+
+- **Manejo del carrito**
+  - Carrito accesible en toda la app con una indicación de la cantidad total de productos
+agregados.
+  - Listado de productos con cantidades seleccionadas y subtotal.
+- **Operaciones del carrito**
+  - Agregar productos al carrito desde la página de detalles del producto.
+  - Actualizar cantidades de productos en el carrito.
+  - Eliminar productos del carrito.
+
+
+4. Módulo de Órdenes
+- **Almacenamiento de órdenes**
+  - Al confirmar la compra, almacenar la orden en la base de datos con los siguientes campos:
+         - `id`, `items` (detalles de productos y cantidades), `fecha`, `estado` (por defecto
+‘generada’).
+- **Checkout**
+  - Mostrar resumen de la compra: productos, cantidades, y total.
+  - Inputs para los datos del comprador: nombre, apellido, teléfono y email (confirmado dos
+veces).
+  - Validar que el email sea ingresado correctamente.
+  - Botón “Realizar compra” que active la creación de la orden en el backend.
+  - Feedback de confirmación con número de orden.
+
+
+5. Navegación y Rutas
+- **Rutas principales**
+  - `/` - Página de inicio con listado de productos.
+  - `/categories/:categoryId` - Vista de productos filtrada por categoría.
+  - `/item/:id` - Vista de detalle de producto.
+  - `/cart` - Página de carrito.
+  - `/product` - Página de producto.
+- `/categories` - Página de categorías.
+- **Reglas de navegación**
+  - La navegación debe usar React Router, evitando `href` o `location`.
+
+## Componentes para el Front-End
+
+**Todo debe ser responsive. Usando buenas prácticas de diseño.
+- **Estructura de navegación**
+  - `Navbar`: barra de navegación general.
+  - `Menu`
+  - `CartWidget`: indicador del carrito.
+                                                                                                4
+
+
+- **Componentes de productos**
+  - `ListItem`: visualización de un producto en la lista.
+  - `ItemList`: lista de productos.
+  - `ItemDetail`: detalle de un producto.
+  - `ItemQuantitySelector`: selector de cantidad.
+  - `AddItemButton`: botón para agregar al carrito.
+- **Componentes de orden y checkout**
+  - `Checkout`: vista de confirmación de compra.
+  - `Brief`: resumen de la orden.
+
+Requerimientos Adicionales
+
+1. **Autenticación y Login**
+  - Implementar autenticación básica para los usuarios (opcional).
+
+2. **Customización de Productos**
+  - Permitir opciones seleccionables para los productos, como color o talla, sin modificar el
+precio.
+  - Las selecciones se deben reflejar en el resumen de la orden.
+
+3. **Consulta de Stock**
+  - Validar la disponibilidad de stock en tiempo real antes de confirmar la compra.
+
+4. **Consulta de Órdenes Previas**
+  - Permitir a los usuarios revisar sus órdenes anteriores usando el `orderId`.
+
+5. **Persistencia de Sesión**
+  - Guardar la sesión de usuario y el estado del carrito entre recargas de la página (por
+ejemplo, usando Local Storage).
+
+6. **Mejoras de Interfaz con Librerías UI**
+
+
+Criterios de Evaluación
+
+- Cumplimiento de todos los requisitos funcionales básicos.
+- Correcta implementación del CRUA de productos, categorías, y órdenes.
+- Validación de datos de entrada y control de errores.
+- Correcta estructura de rutas y navegación.
+- Adecuada gestión de estados en el frontend (React-Redux Toolkit).
+- Organización y claridad del código, siguiendo buenas prácticas y patrones recomendados.
+                                                                                               5
+
+
+Anexo 1
+
+Requerimiento Funcional para la Pantalla de Tabla de Productos
+
+Objetivo:
+Desarrollar una pantalla de tabla de productos que permita a los usuarios filtrar, ordenar y
+navegar a través de los productos de manera eficiente.
+
+1. Componentes Principales:
+
+1.1. Barra Superior:
+
+   ● Barra de Búsqueda:
+        ○ Descripción: Campo de texto donde el usuario puede ingresar palabras clave
+            para filtrar los productos.
+        ○ Funcionalidad: Al escribir en este campo, la tabla de productos se actualiza
+            en tiempo real para mostrar solo los productos que coinciden con la búsqueda.
+   ● Combos de Filtro por Categoría:
+        ○ Descripción: Un combo box (dropdown) que permite al usuario seleccionar
+            una categoría específica.
+        ○ Funcionalidad: Al seleccionar una categoría, la tabla de productos se
+            actualiza para mostrar solo los productos que pertenecen a esa categoría.
+
+1.2. Tabla de Productos:
+
+   ● Encabezados de Columna:
+         ○ Descripción: Cada encabezado de columna (ID, Nombre, Categoría, Precio,
+            Acciones) tiene un ícono de flecha para indicar la dirección de ordenamiento.
+         ○ Funcionalidad: Al hacer clic en un encabezado de columna, la tabla se ordena
+            según esa columna. Si se hace clic nuevamente, se cambia la dirección de
+            ordenamiento (ascendente o descendente).
+   ● Filas de Productos:
+         ○ Descripción: Cada fila muestra los detalles de un producto, incluyendo ID,
+            Nombre, Categoría, Precio y Acciones.
+         ○ Funcionalidad: Las filas deben ser dinámicas y actualizarse según los filtros
+            y ordenamientos aplicados.
+
+1.3. Paginador:
+
+   ● Descripción: Componente que permite navegar entre las páginas de resultados.
+   ● Funcionalidad:
+        ○ Botones de Navegación: Botones para ir a la primera página (<<), página
+                  anterior (<), página siguiente (>) y última página (>>).
+                                                                             6
+
+
+○ Indicador de Página Actual: Muestra el número de página actual y el total de
+  páginas (por ejemplo, "Página 1 de 5").
+○ Funcionalidad: Al hacer clic en un botón de navegación, la tabla se actualiza
+  para mostrar los productos correspondientes a la página seleccionada.
+
