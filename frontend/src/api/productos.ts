@@ -1,61 +1,29 @@
 import { apiFetch } from "./client";
 import type { Producto, ProductoPaginado } from "../types/producto";
 
-export function listProductos(params?: {
+interface ListProductosParams {
   texto?: string;
-  categoria_id?: number;
-  sort_by?: string;
-  sort_dir?: "asc" | "desc";
+  categoriaId?: number;
+  sortBy?: string;
+  sortDir?: "asc" | "desc";
   page?: number;
-  page_size?: number;
-}): Promise<ProductoPaginado> {
-  const queryParams = new URLSearchParams();
-  if (params?.texto) queryParams.set("texto", params.texto);
-  if (params?.categoria_id)
-    queryParams.set("categoria_id", params.categoria_id.toString());
-  if (params?.sort_by) queryParams.set("sort_by", params.sort_by);
-  if (params?.sort_dir) queryParams.set("sort_dir", params.sort_dir);
-  queryParams.set("page", (params?.page ?? 1).toString());
-  queryParams.set("page_size", (params?.page_size ?? 10).toString());
+  pageSize?: number;
+}
 
-  return apiFetch(`/productos?${queryParams.toString()}`);
+export function listProductos(
+  params: ListProductosParams = {},
+): Promise<ProductoPaginado> {
+  const query = new URLSearchParams();
+  if (params.texto) query.set("texto", params.texto);
+  if (params.categoriaId) query.set("categoria_id", String(params.categoriaId));
+  if (params.sortBy) query.set("sort_by", params.sortBy);
+  if (params.sortDir) query.set("sort_dir", params.sortDir);
+  query.set("page", String(params.page ?? 1));
+  query.set("page_size", String(params.pageSize ?? 10));
+
+  return apiFetch(`/productos?${query.toString()}`);
 }
 
 export function getProducto(id: number): Promise<Producto> {
   return apiFetch(`/productos/${id}`);
-}
-
-export function createProducto(data: {
-  nombre: string;
-  precio: number;
-  descripcion: string;
-  imagen_url: string;
-  categoria_id: number;
-}): Promise<Producto> {
-  return apiFetch("/productos", {
-    method: "POST",
-    body: JSON.stringify(data),
-  });
-}
-
-export function updateProducto(
-  id: number,
-  data: {
-    nombre?: string;
-    precio?: number;
-    descripcion?: string;
-    imagen_url?: string;
-    categoria_id?: number;
-  },
-): Promise<Producto> {
-  return apiFetch(`/productos/${id}`, {
-    method: "PATCH",
-    body: JSON.stringify(data),
-  });
-}
-
-export function deleteProducto(id: number): Promise<Producto> {
-  return apiFetch(`/productos/${id}`, {
-    method: "DELETE",
-  });
 }

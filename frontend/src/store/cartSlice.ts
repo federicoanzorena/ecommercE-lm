@@ -1,15 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "./store";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 export interface CartItem {
-  presentacion_id: number;
-  producto_nombre: string;
-  producto_precio: number;
+  presentacionId: number;
+  productoNombre: string;
   color: string;
   talla: string;
-  imagen_url: string;
+  precioUnitario: number;
   cantidad: number;
+  imagenUrl: string | null;
 }
 
 interface CartState {
@@ -25,30 +23,28 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addItem: (state, action: PayloadAction<CartItem>) => {
-      const existingItem = state.items.find(
-        (item) => item.presentacion_id === action.payload.presentacion_id,
+      const existente = state.items.find(
+        (i) => i.presentacionId === action.payload.presentacionId,
       );
-      if (existingItem) {
-        existingItem.cantidad += action.payload.cantidad;
+      if (existente) {
+        existente.cantidad += action.payload.cantidad;
       } else {
         state.items.push(action.payload);
       }
     },
     removeItem: (state, action: PayloadAction<number>) => {
       state.items = state.items.filter(
-        (item) => item.presentacion_id !== action.payload,
+        (i) => i.presentacionId !== action.payload,
       );
     },
-    updateQuantity: (
+    updateCantidad: (
       state,
-      action: PayloadAction<{ presentacion_id: number; cantidad: number }>,
+      action: PayloadAction<{ presentacionId: number; cantidad: number }>,
     ) => {
       const item = state.items.find(
-        (item) => item.presentacion_id === action.payload.presentacion_id,
+        (i) => i.presentacionId === action.payload.presentacionId,
       );
-      if (item) {
-        item.cantidad = action.payload.cantidad;
-      }
+      if (item) item.cantidad = action.payload.cantidad;
     },
     clearCart: (state) => {
       state.items = [];
@@ -56,17 +52,6 @@ const cartSlice = createSlice({
   },
 });
 
-export const { addItem, removeItem, updateQuantity, clearCart } =
+export const { addItem, removeItem, updateCantidad, clearCart } =
   cartSlice.actions;
-
-// Selectores
-export const selectCartItems = (state: RootState) => state.cart.items;
-export const selectCartTotal = (state: RootState) =>
-  state.cart.items.reduce(
-    (total, item) => total + item.producto_precio * item.cantidad,
-    0,
-  );
-export const selectCartItemsCount = (state: RootState) =>
-  state.cart.items.reduce((count, item) => count + item.cantidad, 0);
-
 export default cartSlice.reducer;
