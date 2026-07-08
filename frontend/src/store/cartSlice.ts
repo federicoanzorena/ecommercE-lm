@@ -7,6 +7,7 @@ export interface CartItem {
   talla: string;
   precioUnitario: number;
   cantidad: number;
+  stockDisponible: number;
   imagenUrl: string | null;
 }
 
@@ -27,9 +28,19 @@ const cartSlice = createSlice({
         (i) => i.presentacionId === action.payload.presentacionId,
       );
       if (existente) {
-        existente.cantidad += action.payload.cantidad;
+        const nuevaCantidad = existente.cantidad + action.payload.cantidad;
+        existente.cantidad = Math.min(
+          nuevaCantidad,
+          action.payload.stockDisponible,
+        );
       } else {
-        state.items.push(action.payload);
+        state.items.push({
+          ...action.payload,
+          cantidad: Math.min(
+            action.payload.cantidad,
+            action.payload.stockDisponible,
+          ),
+        });
       }
     },
     removeItem: (state, action: PayloadAction<number>) => {
@@ -44,7 +55,12 @@ const cartSlice = createSlice({
       const item = state.items.find(
         (i) => i.presentacionId === action.payload.presentacionId,
       );
-      if (item) item.cantidad = action.payload.cantidad;
+      if (item) {
+        item.cantidad = Math.min(
+          Math.max(1, action.payload.cantidad),
+          item.stockDisponible,
+        );
+      }
     },
     clearCart: (state) => {
       state.items = [];
