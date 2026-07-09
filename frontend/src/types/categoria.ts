@@ -17,3 +17,13 @@ export interface CategoriaPaginado {
   page_size: number;
   total_pages: number;
 }
+
+export interface CategoriaCreate {
+  nombre: string;
+  descripcion: string;
+}
+
+export interface CategoriaUpdate {
+  nombre?: string;
+  descripcion?: string;
+}

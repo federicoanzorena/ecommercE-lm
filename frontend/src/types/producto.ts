@@ -13,6 +13,22 @@ export interface Producto {
   stock_total: number;
 }
 
+export interface ProductoCreate {
+  nombre: string;
+  precio: number;
+  descripcion: string;
+  imagen_url: string;
+  categoria_id: number;
+}
+
+export interface ProductoUpdate {
+  nombre?: string;
+  precio?: number;
+  descripcion?: string;
+  imagen_url?: string;
+  categoria_id?: number;
+}
+
 export interface ProductoPaginado {
   items: Producto[];
   total: number;

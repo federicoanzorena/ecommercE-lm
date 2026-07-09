@@ -11,6 +11,15 @@ function Navbar() {
         <Link to="/categories" className="text-zinc-300 hover:text-cyan-400">
           Categorías
         </Link>
+        <Link to="/admin" className="text-zinc-300 hover:text-cyan-400">
+          Admin
+        </Link>
+        <Link to="/orders" className="text-zinc-300 hover:text-cyan-400">
+          Mis órdenes
+        </Link>
+        <Link to="/" className="text-zinc-300 hover:text-cyan-400">
+          Home
+        </Link>
         <CartWidget />
       </div>
     </nav>

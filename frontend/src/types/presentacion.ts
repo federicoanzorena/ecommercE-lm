@@ -16,3 +16,18 @@ export interface PresentacionBrief {
   imagen_url: string | null;
   activo: boolean;
 }
+
+export interface PresentacionCreate {
+  color: string;
+  talla: string;
+  imagen_url?: string | null;
+  stock: number;
+  producto_id: number;
+}
+
+export interface PresentacionUpdate {
+  color?: string;
+  talla?: string;
+  imagen_url?: string | null;
+  stock?: number;
+}

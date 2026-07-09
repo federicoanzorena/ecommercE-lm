@@ -2,6 +2,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from app.core.database import create_db_and_tables
 import app.models  # noqa: F401
@@ -10,6 +11,7 @@ from app.modules.productos.router import router as productos_router
 from app.modules.presentaciones.router import router as presentaciones_router
 from app.modules.ordenes.router import router as ordenes_router
 from app.modules.prediccion.router import router as prediccion_router
+from app.modules.uploads.router import router as uploads_router
 
 
 @asynccontextmanager
@@ -28,11 +30,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
+
 app.include_router(categorias_router, prefix="/api/v1/categorias", tags=["categorias"])
 app.include_router(productos_router, prefix="/api/v1/productos", tags=["productos"])
 app.include_router(presentaciones_router, prefix="/api/v1/presentaciones", tags=["presentaciones"])
 app.include_router(ordenes_router, prefix="/api/v1/ordenes", tags=["ordenes"])
 app.include_router(prediccion_router, prefix="/api/v1/prediccion", tags=["prediccion"])
+app.include_router(uploads_router, prefix="/api/v1/uploads", tags=["uploads"])
 
 
 @app.get("/", tags=["health"])

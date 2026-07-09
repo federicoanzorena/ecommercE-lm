@@ -1,5 +1,10 @@
 import { apiFetch } from "./client";
-import type { Producto, ProductoPaginado } from "../types/producto";
+import type {
+  Producto,
+  ProductoCreate,
+  ProductoPaginado,
+  ProductoUpdate,
+} from "../types/producto";
 
 interface ListProductosParams {
   texto?: string;
@@ -26,4 +31,27 @@ export function listProductos(
 
 export function getProducto(id: number): Promise<Producto> {
   return apiFetch(`/productos/${id}`);
+}
+
+export function createProducto(data: ProductoCreate): Promise<Producto> {
+  return apiFetch("/productos", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+}
+
+export function updateProducto(
+  id: number,
+  data: ProductoUpdate,
+): Promise<Producto> {
+  return apiFetch(`/productos/${id}`, {
+    method: "PATCH",
+    body: JSON.stringify(data),
+  });
+}
+
+export function anularProducto(id: number): Promise<Producto> {
+  return apiFetch(`/productos/${id}`, {
+    method: "DELETE",
+  });
 }
