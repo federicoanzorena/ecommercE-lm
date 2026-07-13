@@ -11,6 +11,7 @@ import CategoriesManagePage from "./pages/CategoriesManagePage";
 import CategoryFormPage from "./pages/CategoriaFormPage";
 import ProductsManagePage from "./pages/ProductsManagePage";
 import ProductFormPage from "./pages/ProductFormPage";
+import PrediccionPage from "./pages/PrediccionPage";
 function App() {
   return (
     <div className="min-h-screen bg-zinc-900 text-white">
@@ -35,6 +36,7 @@ function App() {
         <Route path="/admin/products" element={<ProductsManagePage />} />
         <Route path="/admin/products/new" element={<ProductFormPage />} />
         <Route path="/admin/products/:id/edit" element={<ProductFormPage />} />
+        <Route path="/prediccion" element={<PrediccionPage />} />
       </Routes>
     </div>
   );

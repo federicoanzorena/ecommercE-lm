@@ -20,6 +20,9 @@ function Navbar() {
         <Link to="/" className="text-zinc-300 hover:text-cyan-400">
           Home
         </Link>
+        <Link to="/prediccion" className="text-zinc-300 hover:text-cyan-400">
+          Predicción
+        </Link>
         <CartWidget />
       </div>
     </nav>
