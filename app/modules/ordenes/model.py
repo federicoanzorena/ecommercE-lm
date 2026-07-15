@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import TYPE_CHECKING
 
 from sqlmodel import Field, Relationship, SQLModel
@@ -15,7 +15,7 @@ class Orden(SQLModel, table=True):
     apellido: str
     telefono: str
     email: str
-    fecha: datetime = Field(default_factory=datetime.utcnow)
+    fecha: datetime = Field(default_factory=lambda: datetime.now(UTC))
     estado: str = Field(default="generada")
 
     items: list["OrdenItem"] = Relationship(back_populates="orden")

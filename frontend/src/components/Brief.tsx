@@ -19,7 +19,7 @@ function Brief({ items }: BriefProps) {
             key={item.presentacionId}
             className="flex justify-between text-sm text-zinc-300"
           >
-            <span>
+            <span className="min-w-0 truncate">
               {item.productoNombre} ({item.color}/{item.talla}) x{item.cantidad}
             </span>
             <span>

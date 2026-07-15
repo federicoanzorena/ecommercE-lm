@@ -53,6 +53,7 @@ function ProductForm({
   const [talla, setTalla] = useState("");
   const [stock, setStock] = useState(0);
   const [varianteImgUploading, setVarianteImgUploading] = useState(false);
+  const [pendingVarianteImg, setPendingVarianteImg] = useState<{ imagen_url: string; previewUrl: string } | null>(null);
 
   const [existentes, setExistentes] = useState(existingPresentaciones);
   const [aAnular, setAAnular] = useState<number[]>([]);
@@ -82,24 +83,31 @@ function ProductForm({
 
   function handleAddVariante() {
     if (!color.trim() || !talla.trim()) return;
-    setVariantes([...variantes, { color: color.trim(), talla: talla.trim(), stock, imagen_url: null, previewUrl: "" }]);
+    setVariantes([...variantes, {
+      color: color.trim(),
+      talla: talla.trim(),
+      stock,
+      imagen_url: pendingVarianteImg?.imagen_url ?? null,
+      previewUrl: pendingVarianteImg?.previewUrl ?? "",
+    }]);
     setColor("");
     setTalla("");
     setStock(0);
+    setPendingVarianteImg(null);
   }
 
   function handleRemoveVariante(index: number) {
     setVariantes(variantes.filter((_, i) => i !== index));
   }
 
-  async function handleVarianteImageChange(index: number, e: React.ChangeEvent<HTMLInputElement>) {
+  async function handleVarianteImageChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
     setVarianteImgUploading(true);
     try {
       const preview = URL.createObjectURL(file);
       const { url } = await uploadImage(file);
-      setVariantes(variantes.map((v, i) => i === index ? { ...v, imagen_url: url, previewUrl: preview } : v));
+      setPendingVarianteImg({ imagen_url: url, previewUrl: preview });
     } catch {
       // ignore
     } finally {
@@ -300,9 +308,13 @@ function ProductForm({
           </div>
         )}
 
-        <div className="dark-card p-4">
-          <p className="mono-meta mb-3">Agregar variante</p>
-          <div className="flex flex-wrap items-end gap-3">
+        <details className="dark-card" open>
+          <summary className="p-4 cursor-pointer mono-meta list-none flex items-center gap-2 group select-none">
+            <span className="text-cyan-400 text-xs transition-transform duration-200 group-open:rotate-90">▶</span>
+            Agregar variante
+          </summary>
+          <div className="p-4 pt-0">
+            <div className="flex flex-col md:flex-row md:flex-wrap items-end gap-3">
             <div>
               <label className="input-label">Color</label>
               <input
@@ -333,10 +345,14 @@ function ProductForm({
               <input
                 type="file"
                 accept="image/*"
-                onChange={(e) => handleVarianteImageChange(variantes.length, e)}
+                onChange={(e) => handleVarianteImageChange(e)}
                 disabled={varianteImgUploading}
                 className="input-field file:mr-2 file:py-0.5 file:px-2 file:rounded file:border-0 file:bg-cyan-600 file:text-white file:text-xs file:cursor-pointer"
               />
+              {varianteImgUploading && <p className="text-zinc-400 text-xs mt-1">Subiendo...</p>}
+              {pendingVarianteImg?.previewUrl && (
+                <img src={pendingVarianteImg.previewUrl} alt="Preview variante" className="mt-2 w-12 h-12 object-cover rounded-lg border border-cyan-500/20" />
+              )}
             </div>
             <button
               type="button"
@@ -346,8 +362,9 @@ function ProductForm({
             >
               Agregar
             </button>
+            </div>
           </div>
-        </div>
+        </details>
       </div>
 
       <button

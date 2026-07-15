@@ -38,7 +38,8 @@ function CategoriesManagePage() {
       </div>
 
       <div className="dark-card overflow-hidden">
-        <table className="w-full text-left border-collapse">
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-full text-left border-collapse">
           <thead>
             <tr className="border-b border-cyan-500/20">
               <th className="p-3 mono-meta">Nombre</th>
@@ -69,7 +70,8 @@ function CategoriesManagePage() {
               </tr>
             ))}
           </tbody>
-        </table>
+          </table>
+        </div>
       </div>
     </div>
   );

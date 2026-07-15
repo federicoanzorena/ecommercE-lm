@@ -191,7 +191,8 @@ function ProductsManagePage() {
       {data && (
         <>
           <div className="dark-card overflow-hidden">
-            <table className="w-full text-left border-collapse">
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-full text-left border-collapse">
               <thead>
                 {table.getHeaderGroups().map((headerGroup) => (
                   <tr
@@ -238,7 +239,8 @@ function ProductsManagePage() {
                   </tr>
                 ))}
               </tbody>
-            </table>
+              </table>
+            </div>
           </div>
 
           <div className="flex items-center justify-between mt-4">
