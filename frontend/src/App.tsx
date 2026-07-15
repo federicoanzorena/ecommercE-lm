@@ -15,10 +15,10 @@ import ProductFormPage from "./pages/ProductFormPage";
 import PrediccionPage from "./pages/PrediccionPage";
 function App() {
   return (
-    <div className="min-h-screen relative">
+    <div className="min-h-screen flex flex-col relative">
       <div className="absolute inset-0 pointer-events-none opacity-[0.04] grid-bg" />
       <Navbar />
-      <div className="relative pb-16">
+      <div className="relative flex-1 pb-16 overflow-y-auto">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/categories" element={<CategoriesPage />} />
