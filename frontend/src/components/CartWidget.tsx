@@ -9,10 +9,10 @@ function CartWidget() {
   return (
     <Link
       to="/cart"
-      className="flex items-center gap-2 text-zinc-300 hover:text-cyan-400"
+      className="flex items-center gap-2 text-zinc-300 hover:text-cyan-400 transition-colors"
     >
       <span>🛒</span>
-      <span>{cantidadTotal}</span>
+      <span className="mono-meta">{cantidadTotal}</span>
     </Link>
   );
 }

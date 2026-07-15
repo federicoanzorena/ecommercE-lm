@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { listProductos } from "../api/productos";
 import { getCategoria } from "../api/categorias";
 import ItemList from "../components/ItemList";
+import Eyebrow from "../components/Eyebrow";
 
 function CategoryProductsPage() {
   const { categoryId } = useParams();
@@ -30,6 +31,7 @@ function CategoryProductsPage() {
 
   return (
     <div className="p-6">
+      <Eyebrow label="Categorías" />
       <Link
         to="/categories"
         className="text-sm text-zinc-400 hover:text-cyan-400"

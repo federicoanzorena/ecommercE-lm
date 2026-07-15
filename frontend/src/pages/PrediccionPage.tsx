@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { predecirDemanda } from "../api/predicciones";
+import Eyebrow from "../components/Eyebrow";
 
 const DIAS = [
   { value: 0, label: "Lunes" },
@@ -31,6 +32,7 @@ function PrediccionPage() {
 
   return (
     <div className="p-6 max-w-lg mx-auto">
+      <Eyebrow label="Predicción" />
       <h1 className="text-2xl font-bold text-cyan-400 mb-2">
         Predicción de demanda
       </h1>
@@ -38,15 +40,13 @@ function PrediccionPage() {
         Modelo Random Forest entrenado con datos históricos de ventas simulados.
       </p>
 
-      <div className="space-y-4 mb-6">
+      <div className="glass-card p-6 space-y-4 mb-6">
         <div>
-          <label className="block text-sm text-zinc-400 mb-1">
-            Día de la semana
-          </label>
+          <label className="input-label">Día de la semana</label>
           <select
             value={diaSemana}
             onChange={(e) => setDiaSemana(Number(e.target.value))}
-            className="w-full bg-zinc-800 border border-zinc-700 rounded px-3 py-2 text-white"
+            className="input-field"
           >
             {DIAS.map((d) => (
               <option key={d.value} value={d.value}>
@@ -57,7 +57,7 @@ function PrediccionPage() {
         </div>
 
         <div>
-          <label className="block text-sm text-zinc-400 mb-1">
+          <label className="input-label">
             Precio: ${precio.toLocaleString()}
           </label>
           <input
@@ -72,7 +72,7 @@ function PrediccionPage() {
         </div>
 
         <div>
-          <label className="block text-sm text-zinc-400 mb-1">
+          <label className="input-label">
             Stock disponible: {stockDisponible}
           </label>
           <input
@@ -89,18 +89,18 @@ function PrediccionPage() {
       <button
         onClick={handlePredecir}
         disabled={mutation.isPending}
-        className="w-full bg-cyan-500 hover:bg-cyan-400 disabled:bg-zinc-700 text-zinc-900 font-semibold py-3 rounded transition-colors"
+        className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {mutation.isPending ? "Calculando..." : "Predecir demanda"}
       </button>
 
       {mutation.isSuccess && (
-        <div className="mt-6 border border-cyan-400/30 bg-cyan-400/10 rounded-lg p-6 text-center">
-          <p className="text-sm text-zinc-400 mb-1">Demanda estimada</p>
+        <div className="glass-card mt-6 p-6 text-center">
+          <p className="mono-meta mb-1">Demanda estimada</p>
           <p className="text-4xl font-bold text-cyan-400">
             {mutation.data.cantidad_estimada}
           </p>
-          <p className="text-sm text-zinc-400 mt-1">unidades</p>
+          <p className="mono-meta mt-1">unidades</p>
         </div>
       )}
 

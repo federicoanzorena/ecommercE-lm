@@ -8,6 +8,7 @@ import type { ConfirmarOrdenRequest } from "../types/orden";
 import ItemQuantitySelector from "../components/ItemQuantitySelector";
 import Brief from "../components/Brief";
 import Checkout from "../components/Checkout";
+import Eyebrow from "../components/Eyebrow";
 
 function CartPage() {
   const items = useSelector((state: RootState) => state.cart.items);
@@ -45,6 +46,7 @@ function CartPage() {
   if (items.length === 0) {
     return (
       <div className="p-6">
+        <Eyebrow label="Carrito" />
         <h1 className="text-2xl font-bold text-cyan-400 mb-4">Carrito</h1>
         <p className="text-zinc-400">Tu carrito está vacío.</p>
       </div>
@@ -54,22 +56,23 @@ function CartPage() {
   return (
     <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
       <div>
+        <Eyebrow label="Carrito" />
         <h1 className="text-2xl font-bold text-cyan-400 mb-4">Carrito</h1>
         <ul className="space-y-4 mb-6">
           {items.map((item) => (
             <li
               key={item.presentacionId}
-              className="flex items-center gap-4 border border-zinc-700 rounded-lg p-3"
+              className="dark-card flex items-center gap-4 p-3"
             >
               {item.imagenUrl && (
                 <img
                   src={item.imagenUrl}
                   alt={item.productoNombre}
-                  className="w-16 h-16 object-cover rounded"
+                  className="w-16 h-16 object-cover rounded-lg"
                 />
               )}
               <div className="flex-1">
-                <p className="text-white font-medium">{item.productoNombre}</p>
+                <p className="text-zinc-100 font-medium">{item.productoNombre}</p>
                 <p className="text-sm text-zinc-400">
                   {item.color} / {item.talla} — $
                   {item.precioUnitario.toLocaleString()}

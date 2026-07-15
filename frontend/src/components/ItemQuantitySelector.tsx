@@ -17,15 +17,15 @@ function ItemQuantitySelector({
       <button
         onClick={disminuir}
         disabled={cantidad <= 1}
-        className="w-8 h-8 border border-zinc-700 rounded disabled:opacity-30"
+        className="w-8 h-8 dark-card flex items-center justify-center text-zinc-300 disabled:opacity-30 disabled:cursor-not-allowed transition-colors hover:border-cyan-400/50"
       >
         −
       </button>
-      <span className="w-8 text-center">{cantidad}</span>
+      <span className="w-8 text-center text-zinc-100">{cantidad}</span>
       <button
         onClick={aumentar}
         disabled={cantidad >= stockDisponible}
-        className="w-8 h-8 border border-zinc-700 rounded disabled:opacity-30"
+        className="w-8 h-8 dark-card flex items-center justify-center text-zinc-300 disabled:opacity-30 disabled:cursor-not-allowed transition-colors hover:border-cyan-400/50"
       >
         +
       </button>

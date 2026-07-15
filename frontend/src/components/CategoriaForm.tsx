@@ -21,10 +21,10 @@ function CategoriaForm({
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 max-w-md">
       <div>
-        <label className="block text-sm text-zinc-400 mb-1">Nombre</label>
+        <label className="input-label">Nombre</label>
         <input
           {...register("nombre", { required: "El nombre es obligatorio" })}
-          className="w-full bg-zinc-800 border border-zinc-700 rounded px-3 py-2 text-white"
+          className="input-field"
         />
         {errors.nombre && (
           <p className="text-red-400 text-sm mt-1">{errors.nombre.message}</p>
@@ -32,12 +32,12 @@ function CategoriaForm({
       </div>
 
       <div>
-        <label className="block text-sm text-zinc-400 mb-1">Descripción</label>
+        <label className="input-label">Descripción</label>
         <textarea
           {...register("descripcion", {
             required: "La descripción es obligatoria",
           })}
-          className="w-full bg-zinc-800 border border-zinc-700 rounded px-3 py-2 text-white"
+          className="input-field"
           rows={3}
         />
         {errors.descripcion && (
@@ -50,7 +50,7 @@ function CategoriaForm({
       <button
         type="submit"
         disabled={isSubmitting}
-        className="bg-cyan-500 hover:bg-cyan-400 disabled:bg-zinc-700 text-zinc-900 font-semibold px-6 py-2 rounded"
+        className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {isSubmitting ? "Guardando..." : "Guardar"}
       </button>

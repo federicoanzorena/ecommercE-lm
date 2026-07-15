@@ -50,18 +50,18 @@ function ItemDetail({ producto }: ItemDetailProps) {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-6">
+    <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-8 p-6">
       <img
         src={presentacionSeleccionada?.imagen_url ?? producto.imagen_url}
         alt={producto.nombre}
-        className="w-full rounded-lg object-cover"
+        className="w-[26rem] h-[26rem] rounded-xl object-contain"
       />
 
       <div>
         <h1 className="text-3xl font-bold text-white mb-2">
           {producto.nombre}
         </h1>
-        <p className="text-zinc-400 mb-4">{producto.categoria.nombre}</p>
+        <p className="mono-meta mb-4">{producto.categoria.nombre}</p>
         <p className="text-2xl text-cyan-400 font-bold mb-4">
           ${producto.precio.toLocaleString()}
         </p>
@@ -72,17 +72,17 @@ function ItemDetail({ producto }: ItemDetailProps) {
         ) : (
           <>
             <div className="mb-6">
-              <p className="text-sm text-zinc-400 mb-2">Color / Talla</p>
+              <p className="mono-meta mb-2">Color / Talla</p>
               <div className="flex flex-wrap gap-2">
                 {presentacionesActivas.map((p) => (
                   <button
                     key={p.id}
                     onClick={() => handlePresentacion(p.id)}
                     disabled={p.stock === 0}
-                    className={`px-3 py-2 rounded border text-sm disabled:opacity-30 disabled:cursor-not-allowed ${
+                    className={`dark-card px-3 py-2 text-sm disabled:opacity-30 disabled:cursor-not-allowed transition-colors ${
                       p.id === presentacionId
                         ? "border-cyan-400 text-cyan-400"
-                        : "border-zinc-700 text-zinc-300"
+                        : "text-zinc-300 hover:border-cyan-400/50"
                     }`}
                   >
                     {p.color} / {p.talla} {p.stock === 0 && "(sin stock)"}
@@ -93,7 +93,7 @@ function ItemDetail({ producto }: ItemDetailProps) {
 
             {!sinStock && presentacionSeleccionada && (
               <div className="mb-6">
-                <p className="text-sm text-zinc-400 mb-2">Cantidad</p>
+                <p className="mono-meta mb-2">Cantidad</p>
                 <ItemQuantitySelector
                   cantidad={cantidad}
                   stockDisponible={presentacionSeleccionada.stock}

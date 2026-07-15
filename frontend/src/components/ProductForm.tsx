@@ -144,10 +144,10 @@ function ProductForm({
     <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6 max-w-2xl">
       <div className="space-y-4">
         <div>
-          <label className="block text-sm text-zinc-400 mb-1">Nombre</label>
+          <label className="input-label">Nombre</label>
           <input
             {...register("nombre", { required: "El nombre es obligatorio" })}
-            className="w-full bg-zinc-800 border border-zinc-700 rounded px-3 py-2 text-white"
+            className="input-field"
           />
           {errors.nombre && (
             <p className="text-red-400 text-sm mt-1">{errors.nombre.message}</p>
@@ -155,7 +155,7 @@ function ProductForm({
         </div>
 
         <div>
-          <label className="block text-sm text-zinc-400 mb-1">Precio</label>
+          <label className="input-label">Precio</label>
           <input
             type="number"
             step="0.01"
@@ -163,7 +163,7 @@ function ProductForm({
               required: "El precio es obligatorio",
               min: { value: 0, message: "El precio debe ser mayor o igual a 0" },
             })}
-            className="w-full bg-zinc-800 border border-zinc-700 rounded px-3 py-2 text-white"
+            className="input-field"
           />
           {errors.precio && (
             <p className="text-red-400 text-sm mt-1">{errors.precio.message}</p>
@@ -171,12 +171,12 @@ function ProductForm({
         </div>
 
         <div>
-          <label className="block text-sm text-zinc-400 mb-1">Descripción</label>
+          <label className="input-label">Descripción</label>
           <textarea
             {...register("descripcion", {
               required: "La descripción es obligatoria",
             })}
-            className="w-full bg-zinc-800 border border-zinc-700 rounded px-3 py-2 text-white"
+            className="input-field"
             rows={3}
           />
           {errors.descripcion && (
@@ -187,12 +187,12 @@ function ProductForm({
         </div>
 
         <div>
-          <label className="block text-sm text-zinc-400 mb-1">Imagen</label>
+          <label className="input-label">Imagen</label>
           <input
             type="file"
             accept="image/*"
             onChange={handleFileChange}
-            className="w-full bg-zinc-800 border border-zinc-700 rounded px-3 py-2 text-white file:mr-4 file:py-1 file:px-3 file:rounded file:border-0 file:bg-cyan-600 file:text-white file:cursor-pointer hover:file:bg-cyan-500"
+            className="input-field file:mr-4 file:py-1 file:px-3 file:rounded file:border-0 file:bg-cyan-600 file:text-white file:cursor-pointer hover:file:bg-cyan-500"
           />
           {uploading && (
             <p className="text-zinc-400 text-sm mt-1">Subiendo imagen...</p>
@@ -209,19 +209,19 @@ function ProductForm({
             <img
               src={previewUrl}
               alt="Preview"
-              className="mt-2 w-32 h-32 object-cover rounded border border-zinc-700"
+              className="mt-2 w-32 h-32 object-cover rounded-lg border border-cyan-500/20"
             />
           )}
         </div>
 
         <div>
-          <label className="block text-sm text-zinc-400 mb-1">Categoría</label>
+          <label className="input-label">Categoría</label>
           <select
             {...register("categoria_id", {
               required: "La categoría es obligatoria",
               valueAsNumber: true,
             })}
-            className="w-full bg-zinc-800 border border-zinc-700 rounded px-3 py-2 text-white"
+            className="input-field"
           >
             <option value="">Seleccionar categoría</option>
             {categorias?.items.map((cat) => (
@@ -238,42 +238,42 @@ function ProductForm({
         </div>
       </div>
 
-      <div className="border-t border-zinc-700 pt-6">
+      <div className="border-t border-cyan-500/20 pt-6">
         <h3 className="text-lg font-semibold text-cyan-400 mb-4">Presentaciones (variantes)</h3>
 
         {existentes.length > 0 && (
           <div className="mb-4">
-            <p className="text-sm text-zinc-400 mb-2">Existentes</p>
+            <p className="mono-meta mb-2">Existentes</p>
             <div className="space-y-2">
               {existentes.map((p) => (
-                <div key={p.id} className="flex items-center gap-3 bg-zinc-800 border border-zinc-700 rounded p-3">
+                <div key={p.id} className="dark-card flex items-center gap-3 p-3">
                   {aEditar[p.id] ? (
                     <>
                       <input
                         value={aEditar[p.id].color}
                         onChange={(e) => setAEditar({ ...aEditar, [p.id]: { ...aEditar[p.id], color: e.target.value } })}
-                        className="bg-zinc-700 border border-zinc-600 rounded px-2 py-1 text-white text-sm w-24"
+                        className="input-field w-24"
                         placeholder="Color"
                       />
                       <input
                         value={aEditar[p.id].talla}
                         onChange={(e) => setAEditar({ ...aEditar, [p.id]: { ...aEditar[p.id], talla: e.target.value } })}
-                        className="bg-zinc-700 border border-zinc-600 rounded px-2 py-1 text-white text-sm w-20"
+                        className="input-field w-20"
                         placeholder="Talla"
                       />
                       <input
                         type="number"
                         value={aEditar[p.id].stock}
                         onChange={(e) => setAEditar({ ...aEditar, [p.id]: { ...aEditar[p.id], stock: Number(e.target.value) } })}
-                        className="bg-zinc-700 border border-zinc-600 rounded px-2 py-1 text-white text-sm w-20"
+                        className="input-field w-20"
                       />
                       <button type="button" onClick={() => handleGuardarEdicion(p.id)} className="text-green-400 hover:text-green-300 text-sm">Guardar</button>
                       <button type="button" onClick={() => handleCancelarEdicion(p.id)} className="text-zinc-400 hover:text-zinc-300 text-sm">Cancelar</button>
                     </>
                   ) : (
                     <>
-                      <span className="text-white text-sm flex-1">{p.color} / {p.talla}</span>
-                      <span className="text-zinc-400 text-sm">Stock: {p.stock}</span>
+                      <span className="text-zinc-100 text-sm flex-1">{p.color} / {p.talla}</span>
+                      <span className="mono-meta">Stock: {p.stock}</span>
                       <button type="button" onClick={() => handleEditarExistente(p.id)} className="text-cyan-400 hover:text-cyan-300 text-sm">Editar</button>
                       <button type="button" onClick={() => handleAnularExistente(p.id)} className="text-red-400 hover:text-red-300 text-sm">Anular</button>
                     </>
@@ -286,12 +286,12 @@ function ProductForm({
 
         {variantes.length > 0 && (
           <div className="mb-4">
-            <p className="text-sm text-zinc-400 mb-2">Nuevas</p>
+            <p className="mono-meta mb-2">Nuevas</p>
             <div className="space-y-2">
               {variantes.map((v, i) => (
-                <div key={i} className="flex items-center gap-3 bg-zinc-800 border border-zinc-700 rounded p-3">
-                  <span className="text-white text-sm flex-1">{v.color} / {v.talla}</span>
-                  <span className="text-zinc-400 text-sm">Stock: {v.stock}</span>
+                <div key={i} className="dark-card flex items-center gap-3 p-3">
+                  <span className="text-zinc-100 text-sm flex-1">{v.color} / {v.talla}</span>
+                  <span className="mono-meta">Stock: {v.stock}</span>
                   {v.imagen_url && <span className="text-green-400 text-sm">IMG OK</span>}
                   <button type="button" onClick={() => handleRemoveVariante(i)} className="text-red-400 hover:text-red-300 text-sm">Quitar</button>
                 </div>
@@ -300,49 +300,49 @@ function ProductForm({
           </div>
         )}
 
-        <div className="bg-zinc-800/50 border border-zinc-700 rounded p-4">
-          <p className="text-sm text-zinc-400 mb-3">Agregar variante</p>
+        <div className="dark-card p-4">
+          <p className="mono-meta mb-3">Agregar variante</p>
           <div className="flex flex-wrap items-end gap-3">
             <div>
-              <label className="block text-xs text-zinc-500 mb-1">Color</label>
+              <label className="input-label">Color</label>
               <input
                 value={color}
                 onChange={(e) => setColor(e.target.value)}
-                className="bg-zinc-700 border border-zinc-600 rounded px-2 py-1 text-white text-sm w-28"
+                className="input-field w-28"
               />
             </div>
             <div>
-              <label className="block text-xs text-zinc-500 mb-1">Talla</label>
+              <label className="input-label">Talla</label>
               <input
                 value={talla}
                 onChange={(e) => setTalla(e.target.value)}
-                className="bg-zinc-700 border border-zinc-600 rounded px-2 py-1 text-white text-sm w-20"
+                className="input-field w-20"
               />
             </div>
             <div>
-              <label className="block text-xs text-zinc-500 mb-1">Stock</label>
+              <label className="input-label">Stock</label>
               <input
                 type="number"
                 value={stock}
                 onChange={(e) => setStock(Number(e.target.value))}
-                className="bg-zinc-700 border border-zinc-600 rounded px-2 py-1 text-white text-sm w-20"
+                className="input-field w-20"
               />
             </div>
             <div>
-              <label className="block text-xs text-zinc-500 mb-1">Imagen</label>
+              <label className="input-label">Imagen</label>
               <input
                 type="file"
                 accept="image/*"
                 onChange={(e) => handleVarianteImageChange(variantes.length, e)}
                 disabled={varianteImgUploading}
-                className="bg-zinc-700 border border-zinc-600 rounded px-2 py-1 text-white text-sm file:mr-2 file:py-0.5 file:px-2 file:rounded file:border-0 file:bg-cyan-600 file:text-white file:text-xs file:cursor-pointer"
+                className="input-field file:mr-2 file:py-0.5 file:px-2 file:rounded file:border-0 file:bg-cyan-600 file:text-white file:text-xs file:cursor-pointer"
               />
             </div>
             <button
               type="button"
               onClick={handleAddVariante}
               disabled={!color.trim() || !talla.trim()}
-              className="bg-cyan-600 hover:bg-cyan-500 disabled:bg-zinc-700 text-white text-sm px-3 py-1 rounded"
+              className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Agregar
             </button>
@@ -353,7 +353,7 @@ function ProductForm({
       <button
         type="submit"
         disabled={isSubmitting || uploading || !imagenUrl}
-        className="bg-cyan-500 hover:bg-cyan-400 disabled:bg-zinc-700 text-zinc-900 font-semibold px-6 py-2 rounded"
+        className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {isSubmitting ? "Guardando..." : "Guardar"}
       </button>

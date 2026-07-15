@@ -11,6 +11,7 @@ import type { ProductoCreate } from "../types/producto";
 import ProductForm, {
   type PresentacionesFormData,
 } from "../components/ProductForm";
+import Eyebrow from "../components/Eyebrow";
 
 function ProductFormPage() {
   const { id } = useParams();
@@ -88,6 +89,7 @@ function ProductFormPage() {
 
   return (
     <div className="p-6">
+      <Eyebrow label="Administración" />
       <h1 className="text-2xl font-bold text-cyan-400 mb-6">
         {esEdicion ? "Editar producto" : "Nuevo producto"}
       </h1>

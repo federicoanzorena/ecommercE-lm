@@ -7,6 +7,7 @@ import {
 } from "../api/categorias";
 import type { CategoriaCreate } from "../types/categoria";
 import CategoriaForm from "../components/CategoriaForm";
+import Eyebrow from "../components/Eyebrow";
 
 function CategoryFormPage() {
   const { id } = useParams();
@@ -37,6 +38,7 @@ function CategoryFormPage() {
 
   return (
     <div className="p-6">
+      <Eyebrow label="Administración" />
       <h1 className="text-2xl font-bold text-cyan-400 mb-6">
         {esEdicion ? "Editar categoría" : "Nueva categoría"}
       </h1>

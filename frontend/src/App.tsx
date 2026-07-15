@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import HomePage from "./pages/HomePage";
 import CategoriesPage from "./pages/CategoriesPage";
 import CategoryProductsPage from "./pages/CategoryProductsPage";
@@ -14,30 +15,34 @@ import ProductFormPage from "./pages/ProductFormPage";
 import PrediccionPage from "./pages/PrediccionPage";
 function App() {
   return (
-    <div className="min-h-screen bg-zinc-900 text-white">
+    <div className="min-h-screen relative">
+      <div className="absolute inset-0 pointer-events-none opacity-[0.04] grid-bg" />
       <Navbar />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/categories" element={<CategoriesPage />} />
-        <Route
-          path="/categories/:categoryId"
-          element={<CategoryProductsPage />}
-        />
-        <Route path="/item/:id" element={<ItemDetailPage />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/orders" element={<OrderLookupPage />} />
-        <Route path="/admin" element={<AdminPage />} />
-        <Route path="/admin/categories" element={<CategoriesManagePage />} />
-        <Route path="/admin/categories/new" element={<CategoryFormPage />} />
-        <Route
-          path="/admin/categories/:id/edit"
-          element={<CategoryFormPage />}
-        />
-        <Route path="/admin/products" element={<ProductsManagePage />} />
-        <Route path="/admin/products/new" element={<ProductFormPage />} />
-        <Route path="/admin/products/:id/edit" element={<ProductFormPage />} />
-        <Route path="/prediccion" element={<PrediccionPage />} />
-      </Routes>
+      <div className="relative pb-16">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/categories" element={<CategoriesPage />} />
+          <Route
+            path="/categories/:categoryId"
+            element={<CategoryProductsPage />}
+          />
+          <Route path="/item/:id" element={<ItemDetailPage />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/orders" element={<OrderLookupPage />} />
+          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/admin/categories" element={<CategoriesManagePage />} />
+          <Route path="/admin/categories/new" element={<CategoryFormPage />} />
+          <Route
+            path="/admin/categories/:id/edit"
+            element={<CategoryFormPage />}
+          />
+          <Route path="/admin/products" element={<ProductsManagePage />} />
+          <Route path="/admin/products/new" element={<ProductFormPage />} />
+          <Route path="/admin/products/:id/edit" element={<ProductFormPage />} />
+          <Route path="/prediccion" element={<PrediccionPage />} />
+        </Routes>
+        <Footer />
+      </div>
     </div>
   );
 }

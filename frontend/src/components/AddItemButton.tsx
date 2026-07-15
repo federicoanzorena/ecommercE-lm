@@ -8,7 +8,7 @@ function AddItemButton({ onClick, disabled }: AddItemButtonProps) {
     <button
       onClick={onClick}
       disabled={disabled}
-      className="bg-cyan-500 hover:bg-cyan-400 disabled:bg-zinc-700 disabled:cursor-not-allowed text-zinc-900 font-semibold px-6 py-2 rounded transition-colors"
+      className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
     >
       {disabled ? "Sin stock" : "Agregar al carrito"}
     </button>

@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { listProductos } from "../api/productos";
 import ItemList from "../components/ItemList";
+import Eyebrow from "../components/Eyebrow";
 
 function HomePage() {
   const { data, isLoading, error } = useQuery({
@@ -14,9 +15,13 @@ function HomePage() {
     return <p className="p-6 text-red-400">Error al cargar productos.</p>;
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold text-cyan-400 mb-6">Productos</h1>
-      <ItemList productos={data?.items ?? []} />
+    <div className="p-6 relative min-h-[calc(100vh-8rem)]">
+      <div className="absolute inset-0 pointer-events-none circuit-bg" />
+      <div className="relative">
+        <Eyebrow label="Tienda" />
+        <h1 className="text-2xl font-bold text-cyan-400 mb-6">Productos</h1>
+        <ItemList productos={data?.items ?? []} />
+      </div>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getOrden } from "../api/ordenes";
+import Eyebrow from "../components/Eyebrow";
 
 function OrderLookupPage() {
   const [inputId, setInputId] = useState("");
@@ -22,6 +23,7 @@ function OrderLookupPage() {
 
   return (
     <div className="p-6 max-w-lg mx-auto">
+      <Eyebrow label="Órdenes" />
       <h1 className="text-2xl font-bold text-cyan-400 mb-6">
         Consultar mi orden
       </h1>
@@ -32,11 +34,11 @@ function OrderLookupPage() {
           value={inputId}
           onChange={(e) => setInputId(e.target.value)}
           placeholder="Número de orden"
-          className="flex-1 bg-zinc-800 border border-zinc-700 rounded px-3 py-2 text-white"
+          className="input-field flex-1"
         />
         <button
           type="submit"
-          className="bg-cyan-500 hover:bg-cyan-400 text-zinc-900 font-semibold px-4 py-2 rounded"
+          className="btn-primary"
         >
           Buscar
         </button>
@@ -50,10 +52,10 @@ function OrderLookupPage() {
       )}
 
       {data && (
-        <div className="border border-zinc-700 rounded-lg p-4 space-y-3">
+        <div className="glass-card p-4 space-y-3">
           <div>
-            <p className="text-sm text-zinc-400">Orden #{data.id}</p>
-            <p className="text-white font-semibold">
+            <p className="mono-meta mb-1">Orden #{data.id}</p>
+            <p className="text-zinc-100 font-semibold">
               {data.nombre} {data.apellido}
             </p>
             <p className="text-sm text-zinc-400">{data.email}</p>
@@ -65,7 +67,7 @@ function OrderLookupPage() {
             </p>
           </div>
 
-          <ul className="space-y-2 border-t border-zinc-700 pt-3">
+          <ul className="space-y-2 border-t border-cyan-500/20 pt-3">
             {data.items.map((item, idx) => (
               <li
                 key={idx}
@@ -79,7 +81,7 @@ function OrderLookupPage() {
             ))}
           </ul>
 
-          <div className="border-t border-zinc-700 pt-3 flex justify-between font-bold text-cyan-400">
+          <div className="border-t border-cyan-500/20 pt-3 flex justify-between font-bold text-cyan-400">
             <span>Total</span>
             <span>${data.total.toLocaleString()}</span>
           </div>

@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getProducto } from "../api/productos";
 import ItemDetail from "../components/ItemDetail";
+import Eyebrow from "../components/Eyebrow";
 
 function ItemDetailPage() {
   const { id } = useParams();
@@ -18,7 +19,14 @@ function ItemDetailPage() {
   if (error || !data)
     return <p className="p-6 text-red-400">Producto no encontrado.</p>;
 
-  return <ItemDetail producto={data} />;
+  return (
+    <div>
+      <div className="p-6 pb-0">
+        <Eyebrow label="Tienda" />
+      </div>
+      <ItemDetail producto={data} />
+    </div>
+  );
 }
 
 export default ItemDetailPage;

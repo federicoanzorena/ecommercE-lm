@@ -11,6 +11,7 @@ import {
 import { listProductos, anularProducto } from "../api/productos";
 import { listCategorias } from "../api/categorias";
 import type { Producto } from "../types/producto";
+import Eyebrow from "../components/Eyebrow";
 
 const columnHelper = createColumnHelper<Producto>();
 
@@ -92,8 +93,8 @@ function ProductsManagePage() {
         <span
           className={`inline-block px-2 py-1 text-xs rounded-full ${
             info.getValue()
-              ? "bg-green-900 text-green-300"
-              : "bg-red-900 text-red-300"
+              ? "bg-green-900/50 text-green-300 border border-green-500/30"
+              : "bg-red-900/50 text-red-300 border border-red-500/30"
           }`}
         >
           {info.getValue() ? "Sí" : "No"}
@@ -148,13 +149,14 @@ function ProductsManagePage() {
 
   return (
     <div className="p-6">
+      <Eyebrow label="Administración" />
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold text-cyan-400">
           Administrar productos
         </h1>
         <Link
           to="/admin/products/new"
-          className="bg-cyan-600 hover:bg-cyan-500 text-white px-4 py-2 rounded-lg transition-colors"
+          className="btn-primary"
         >
           Nuevo producto
         </Link>
@@ -165,14 +167,14 @@ function ProductsManagePage() {
           value={texto}
           onChange={(e) => setTexto(e.target.value)}
           placeholder="Buscar por nombre..."
-          className="bg-zinc-800 border border-zinc-700 rounded px-3 py-2 text-white flex-1 min-w-[200px]"
+          className="input-field flex-1 min-w-[200px]"
         />
         <select
           value={categoriaId ?? ""}
           onChange={(e) =>
             setCategoriaId(e.target.value ? Number(e.target.value) : undefined)
           }
-          className="bg-zinc-800 border border-zinc-700 rounded px-3 py-2 text-white"
+          className="input-field w-auto"
         >
           <option value="">Todas las categorías</option>
           {categorias?.items.map((cat) => (
@@ -188,18 +190,18 @@ function ProductsManagePage() {
 
       {data && (
         <>
-          <div className="overflow-x-auto">
+          <div className="dark-card overflow-hidden">
             <table className="w-full text-left border-collapse">
               <thead>
                 {table.getHeaderGroups().map((headerGroup) => (
                   <tr
                     key={headerGroup.id}
-                    className="text-zinc-400 border-b border-zinc-700"
+                    className="border-b border-cyan-500/20"
                   >
                     {headerGroup.headers.map((header) => (
                       <th
                         key={header.id}
-                        className="py-3 px-4 select-none"
+                        className="py-3 px-4 select-none mono-meta"
                         onClick={header.column.getToggleSortingHandler()}
                         style={{
                           cursor: header.column.getCanSort()
@@ -223,7 +225,7 @@ function ProductsManagePage() {
                 {table.getRowModel().rows.map((row) => (
                   <tr
                     key={row.id}
-                    className="border-b border-zinc-800 hover:bg-zinc-800/50"
+                    className="border-b border-cyan-500/10 hover:bg-cyan-500/5"
                   >
                     {row.getVisibleCells().map((cell) => (
                       <td key={cell.id} className="py-3 px-4 text-zinc-300">
@@ -240,21 +242,21 @@ function ProductsManagePage() {
           </div>
 
           <div className="flex items-center justify-between mt-4">
-            <p className="text-sm text-zinc-400">
+            <p className="mono-meta">
               Página {data.page} de {data.total_pages} — {data.total} productos
             </p>
             <div className="flex gap-2">
               <button
                 onClick={() => setPageIndex((p) => Math.max(0, p - 1))}
                 disabled={pageIndex === 0}
-                className="px-3 py-1 border border-zinc-700 rounded disabled:opacity-30"
+                className="btn-primary disabled:opacity-30"
               >
                 Anterior
               </button>
               <button
                 onClick={() => setPageIndex((p) => p + 1)}
                 disabled={pageIndex + 1 >= data.total_pages}
-                className="px-3 py-1 border border-zinc-700 rounded disabled:opacity-30"
+                className="btn-primary disabled:opacity-30"
               >
                 Siguiente
               </button>

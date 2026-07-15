@@ -3,26 +3,28 @@ import CartWidget from "./CartWidget";
 
 function Navbar() {
   return (
-    <nav className="bg-zinc-950 border-b border-zinc-800 px-6 py-4 flex items-center justify-between">
+    <nav className="glass-panel border-l-0 border-t-0 border-b border-r-0 px-6 py-4 grid grid-cols-3 items-center">
       <Link to="/" className="text-xl font-bold text-cyan-400">
         Ecommerce
       </Link>
-      <div className="flex items-center gap-6">
-        <Link to="/categories" className="text-zinc-300 hover:text-cyan-400">
-          Categorías
-        </Link>
-        <Link to="/admin" className="text-zinc-300 hover:text-cyan-400">
-          Admin
-        </Link>
-        <Link to="/orders" className="text-zinc-300 hover:text-cyan-400">
-          Mis órdenes
-        </Link>
-        <Link to="/" className="text-zinc-300 hover:text-cyan-400">
+      <div className="flex items-center justify-center gap-3">
+        <Link to="/" className="dark-card px-4 py-2 text-sm text-zinc-300 hover:text-cyan-400 hover:border-cyan-400/50 transition-colors">
           Home
         </Link>
-        <Link to="/prediccion" className="text-zinc-300 hover:text-cyan-400">
+        <Link to="/categories" className="dark-card px-4 py-2 text-sm text-zinc-300 hover:text-cyan-400 hover:border-cyan-400/50 transition-colors">
+          Categorías
+        </Link>
+        <Link to="/orders" className="dark-card px-4 py-2 text-sm text-zinc-300 hover:text-cyan-400 hover:border-cyan-400/50 transition-colors whitespace-nowrap">
+          Mis órdenes
+        </Link>
+        <Link to="/prediccion" className="dark-card px-4 py-2 text-sm text-zinc-300 hover:text-cyan-400 hover:border-cyan-400/50 transition-colors">
           Predicción
         </Link>
+        <Link to="/admin" className="dark-card px-4 py-2 text-sm text-zinc-300 hover:text-cyan-400 hover:border-cyan-400/50 transition-colors">
+          Admin
+        </Link>
+      </div>
+      <div className="flex justify-end">
         <CartWidget />
       </div>
     </nav>

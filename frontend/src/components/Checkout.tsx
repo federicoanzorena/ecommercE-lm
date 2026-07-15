@@ -21,10 +21,10 @@ function Checkout({ onSubmit, isSubmitting }: CheckoutProps) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div>
-        <label className="block text-sm text-zinc-400 mb-1">Nombre</label>
+        <label className="input-label">Nombre</label>
         <input
           {...register("nombre", { required: "El nombre es obligatorio" })}
-          className="w-full bg-zinc-800 border border-zinc-700 rounded px-3 py-2 text-white"
+          className="input-field"
         />
         {errors.nombre && (
           <p className="text-red-400 text-sm mt-1">{errors.nombre.message}</p>
@@ -32,10 +32,10 @@ function Checkout({ onSubmit, isSubmitting }: CheckoutProps) {
       </div>
 
       <div>
-        <label className="block text-sm text-zinc-400 mb-1">Apellido</label>
+        <label className="input-label">Apellido</label>
         <input
           {...register("apellido", { required: "El apellido es obligatorio" })}
-          className="w-full bg-zinc-800 border border-zinc-700 rounded px-3 py-2 text-white"
+          className="input-field"
         />
         {errors.apellido && (
           <p className="text-red-400 text-sm mt-1">{errors.apellido.message}</p>
@@ -43,10 +43,10 @@ function Checkout({ onSubmit, isSubmitting }: CheckoutProps) {
       </div>
 
       <div>
-        <label className="block text-sm text-zinc-400 mb-1">Teléfono</label>
+        <label className="input-label">Teléfono</label>
         <input
           {...register("telefono", { required: "El teléfono es obligatorio" })}
-          className="w-full bg-zinc-800 border border-zinc-700 rounded px-3 py-2 text-white"
+          className="input-field"
         />
         {errors.telefono && (
           <p className="text-red-400 text-sm mt-1">{errors.telefono.message}</p>
@@ -54,14 +54,14 @@ function Checkout({ onSubmit, isSubmitting }: CheckoutProps) {
       </div>
 
       <div>
-        <label className="block text-sm text-zinc-400 mb-1">Email</label>
+        <label className="input-label">Email</label>
         <input
           type="email"
           {...register("email", {
             required: "El email es obligatorio",
             pattern: { value: /^\S+@\S+\.\S+$/, message: "Email inválido" },
           })}
-          className="w-full bg-zinc-800 border border-zinc-700 rounded px-3 py-2 text-white"
+          className="input-field"
         />
         {errors.email && (
           <p className="text-red-400 text-sm mt-1">{errors.email.message}</p>
@@ -69,16 +69,14 @@ function Checkout({ onSubmit, isSubmitting }: CheckoutProps) {
       </div>
 
       <div>
-        <label className="block text-sm text-zinc-400 mb-1">
-          Confirmar email
-        </label>
+        <label className="input-label">Confirmar email</label>
         <input
           type="email"
           {...register("email_confirmacion", {
             required: "Confirmá tu email",
             validate: (value) => value === email || "Los emails no coinciden",
           })}
-          className="w-full bg-zinc-800 border border-zinc-700 rounded px-3 py-2 text-white"
+          className="input-field"
         />
         {errors.email_confirmacion && (
           <p className="text-red-400 text-sm mt-1">
@@ -90,7 +88,7 @@ function Checkout({ onSubmit, isSubmitting }: CheckoutProps) {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full bg-cyan-500 hover:bg-cyan-400 disabled:bg-zinc-700 text-zinc-900 font-semibold py-3 rounded transition-colors"
+        className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {isSubmitting ? "Procesando..." : "Realizar compra"}
       </button>
