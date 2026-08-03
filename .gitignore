@@ -7,5 +7,5 @@ __pycache__/
 .env
 # Base de datos SQLite local
 *.db
-app/static/uploads/*
-!app/static/uploads/.gitkeep
+backend/static/uploads/*
+!backend/static/uploads/.gitkeep
