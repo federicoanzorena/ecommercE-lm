@@ -1,18 +1,18 @@
 import { Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-import HomePage from "./pages/HomePage";
-import CategoriesPage from "./pages/CategoriesPage";
-import CategoryProductsPage from "./pages/CategoryProductsPage";
-import ItemDetailPage from "./pages/ItemDetailPage";
-import CartPage from "./pages/CartPage";
-import OrderLookupPage from "./pages/OrderLookupPage";
-import AdminPage from "./pages/AdminPage";
-import CategoriesManagePage from "./pages/CategoriesManagePage";
-import CategoryFormPage from "./pages/CategoriaFormPage";
-import ProductsManagePage from "./pages/ProductsManagePage";
-import ProductFormPage from "./pages/ProductFormPage";
-import PrediccionPage from "./pages/PrediccionPage";
+import Navbar from "@/core/components/Navbar";
+import Footer from "@/core/components/Footer";
+import HomePage from "@/modules/productos/HomePage";
+import CategoriesPage from "@/modules/categorias/CategoriesPage";
+import CategoryProductsPage from "@/modules/productos/CategoryProductsPage";
+import ItemDetailPage from "@/modules/productos/ItemDetailPage";
+import CartPage from "@/modules/ordenes/CartPage";
+import OrderLookupPage from "@/modules/ordenes/OrderLookupPage";
+import AdminPage from "@/core/pages/AdminPage";
+import CategoriesManagePage from "@/modules/categorias/CategoriesManagePage";
+import CategoryFormPage from "@/modules/categorias/CategoriaFormPage";
+import ProductsManagePage from "@/modules/productos/ProductsManagePage";
+import ProductFormPage from "@/modules/productos/ProductFormPage";
+import PrediccionPage from "@/modules/prediccion/PrediccionPage";
 function App() {
   return (
     <div className="min-h-screen flex flex-col relative overflow-x-hidden">
