@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/core/store/store";
 
-function CartWidget() {
+function BadgeWidget() {
   const items = useSelector((state: RootState) => state.cart.items);
   const cantidadTotal = items.reduce((acc, item) => acc + item.cantidad, 0);
 
@@ -17,4 +17,4 @@ function CartWidget() {
   );
 }
 
-export default CartWidget;
+export default BadgeWidget;

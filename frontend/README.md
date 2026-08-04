@@ -32,18 +32,18 @@ React Query configurado con staleTime de 5 minutos y refetchOnWindowFocus deshab
 
 ## Stack Tecnico
 
-| Capa | Tecnologia | Version |
-|---|---|---|
-| Framework | React | 19.2.7 |
-| Build Tool | Vite | 8.1.1 |
-| Lenguaje | TypeScript | ~6.0.2 |
-| CSS | Tailwind CSS | 4.3.2 |
-| Routing | React Router DOM | 7.18.1 |
+| Capa         | Tecnologia           | Version |
+| ------------ | -------------------- | ------- |
+| Framework    | React                | 19.2.7  |
+| Build Tool   | Vite                 | 8.1.1   |
+| Lenguaje     | TypeScript           | ~6.0.2  |
+| CSS          | Tailwind CSS         | 4.3.2   |
+| Routing      | React Router DOM     | 7.18.1  |
 | Server State | TanStack React Query | 5.101.2 |
-| Client State | Redux Toolkit | 2.12.0 |
-| Persist | redux-persist | 6.0.0 |
-| Forms | React Hook Form | 7.81.0 |
-| Tablas | TanStack React Table | 8.21.3 |
+| Client State | Redux Toolkit        | 2.12.0  |
+| Persist      | redux-persist        | 6.0.0   |
+| Forms        | React Hook Form      | 7.81.0  |
+| Tablas       | TanStack React Table | 8.21.3  |
 
 ## Estructura de Carpetas
 
@@ -85,7 +85,7 @@ src/
       api.ts            # Subida de imagenes (fetch nativo con FormData)
     carrito/            # Estado cliente (Redux) sin equivalente en backend
       cartSlice.ts      # Slice del carrito
-      CartWidget.tsx    # Badge del carrito en nav
+      BadgeWidget.tsx    # Badge del carrito en nav
       AddItemButton.tsx ItemQuantitySelector.tsx
   assets/               # Imagenes estaticas
 ```
@@ -93,7 +93,6 @@ src/
 Los imports internos usan el alias `@/` que apunta a `src/` (definido en `vite.config.ts` y `tsconfig.app.json`).
 
 Los modulos pueden depender entre si igual que en el backend (ej. `productos/ItemDetail.tsx` importa el carrito, `productos/ProductForm.tsx` importa categorias/uploads/presentaciones).
-```
 
 ## Routing
 
@@ -141,6 +140,7 @@ No hay hooks personalizados toda la logica query/mutation esta inline en las pag
 Redux se usa exclusivamente para el **carrito de compras**:
 
 **Slice:** `cartSlice` con acciones:
+
 - `addItem(CartItem)` - Agrega o incrementa cantidad (tope en stock)
 - `removeItem(presentacionId)` - Elimina variante
 - `updateCantidad({presentacionId, cantidad}) - Setea cantidad (clamp 1..stock)
@@ -153,12 +153,14 @@ Redux se usa exclusivamente para el **carrito de compras**:
 ## Capa API
 
 **Cliente base** (`core/api/client.ts`):
+
 - Funcion generica `apiFetch<T>(path, options)`
 - URL base desde `VITE_API_URL` (default `http://localhost:8000`)
 - Todas las requests van a `/api/v1/*`
 - Manejo de errores: parsea `detail` del response JSON
 
 **Modulos por feature:** Cada modulo expone su `api.ts` con funciones tipadas que llaman a `apiFetch`:
+
 - `categorias/api.ts` - CRUD completo
 - `productos/api.ts` - CRUD con query params (busqueda, filtro, sort)
 - `presentaciones/api.ts` - CRUD por producto
@@ -169,15 +171,20 @@ Redux se usa exclusivamente para el **carrito de compras**:
 ## Formularios (React Hook Form)
 
 ### Checkout.tsx
+
 Formulario de datos del comprador (nombre, apellido, telefono, email, email_confirmacion).
+
 - Validacion de email con regex
 - Validacion cruzada de confirmacion de email
 
 ### CategoriaForm.tsx
+
 Formulario simple: nombre + descripcion con required validators.
 
 ### ProductForm.tsx (381 lineas)
+
 El form mas complejo del proyecto:
+
 - Campos del producto (nombre, precio, descripcion, imagen, categoria)
 - Subida de imagen con preview via `URL.createObjectURL`
 - Builder de presentaciones (variantes) con color/talla/stock/imagen
@@ -188,7 +195,9 @@ El form mas complejo del proyecto:
 ## Paginas Destacadas
 
 ### ProductsManagePage (273 lineas)
+
 La pagina mas compleja. Usa TanStack React Table con:
+
 - `manualSorting` y `manualPagination` (todo server-side)
 - Busqueda con debounce (400ms via useState + useEffect + setTimeout)
 - Filtro por categoria (dropdown)
@@ -196,14 +205,18 @@ La pagina mas compleja. Usa TanStack React Table con:
 - Paginacion prev/next
 
 ### CartPage
+
 Combina estado Redux (carrito) con estado local (flow de checkout):
+
 - Carrito con selects de cantidad
 - Resumen de la orden (Brief)
 - Formulario de checkout (Checkout)
 - Al confirmar exitosamente: limpia carrito y muestra modal fullscreen con numero de orden
 
 ### PrediccionPage
+
 Herramienta standalone de prediccion ML:
+
 - 3 inputs: dia de semana, precio (range slider), stock (range slider)
 - Llama a `/prediccion/demanda`
 - Muestra cantidad estimada
@@ -213,6 +226,7 @@ Herramienta standalone de prediccion ML:
 Tema oscuro con acento cyan/teal (espacio de color oklch).
 
 Utilidades custom definidas en `index.css`:
+
 - `glass-card`, `glass-panel` - Paneles translucidos con backdrop blur
 - `dark-card` - Card oscura
 - `input-field`, `input-label` - Estilos de formulario
