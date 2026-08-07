@@ -8,3 +8,6 @@ scikit-learn
 joblib
 pandas
 numpy
+bcrypt==4.0.1
+python-jose==3.5.0
+slowapi

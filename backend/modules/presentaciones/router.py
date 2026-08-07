@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, Query, status
 from sqlmodel import Session
 
 from backend.core.database import get_session
+from backend.modules.seguridad.dependencias import requerir_permiso
 from backend.modules.presentaciones.schemas import (
     PresentacionCreate,
     PresentacionRead,
@@ -30,6 +31,7 @@ def list_presentaciones(
 def create_presentacion(
     data: PresentacionCreate,
     svc: PresentacionService = Depends(get_presentacion_service),
+    _: None = Depends(requerir_permiso("presentaciones:gestionar")),
 ):
     return svc.create(data)
 
@@ -47,6 +49,7 @@ def update_presentacion(
     presentacion_id: int,
     data: PresentacionUpdate,
     svc: PresentacionService = Depends(get_presentacion_service),
+    _: None = Depends(requerir_permiso("presentaciones:gestionar")),
 ):
     return svc.update(presentacion_id, data)
 
@@ -55,5 +58,6 @@ def update_presentacion(
 def anular_presentacion(
     presentacion_id: int,
     svc: PresentacionService = Depends(get_presentacion_service),
+    _: None = Depends(requerir_permiso("presentaciones:gestionar")),
 ):
     return svc.anular(presentacion_id)

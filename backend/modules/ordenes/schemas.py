@@ -1,4 +1,5 @@
 from datetime import datetime
+from uuid import UUID
 
 from pydantic import field_validator
 from sqlmodel import SQLModel
@@ -34,6 +35,7 @@ class ItemOrdenRead(SQLModel):
 
 class OrdenRead(SQLModel):
     id: int
+    usuario_id: UUID | None
     nombre: str
     apellido: str
     telefono: str

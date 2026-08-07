@@ -11,6 +11,7 @@ import {
   type Storage,
 } from "redux-persist";
 import cartReducer from "@/modules/carrito/cartSlice";
+import autenticacionReducer from "@/modules/seguridad/autenticacionSlice";
 
 const storage: Storage = {
   getItem: (key: string) => Promise.resolve(window.localStorage.getItem(key)),
@@ -28,6 +29,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   cart: cartReducer,
+  autenticacion: autenticacionReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -1,5 +1,6 @@
 from datetime import UTC, datetime
 from typing import TYPE_CHECKING
+from uuid import UUID
 
 from sqlmodel import Field, Relationship, SQLModel
 
@@ -11,6 +12,9 @@ class Orden(SQLModel, table=True):
     __tablename__ = "ordenes"
 
     id: int | None = Field(default=None, primary_key=True)
+    usuario_id: UUID | None = Field(
+        default=None, foreign_key="usuario.id", index=True
+    )
     nombre: str
     apellido: str
     telefono: str

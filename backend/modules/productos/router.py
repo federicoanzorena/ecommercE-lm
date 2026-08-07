@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, status
 from sqlmodel import Session
 
 from backend.core.database import get_session
+from backend.modules.seguridad.dependencias import requerir_permiso
 from backend.modules.productos.schemas import (
     ProductoCreate,
     ProductoPaginado,
@@ -22,7 +23,9 @@ def get_producto_service(session: Session = Depends(get_session)) -> ProductoSer
 
 @router.post("", response_model=ProductoRead, status_code=status.HTTP_201_CREATED)
 def create_producto(
-    data: ProductoCreate, svc: ProductoService = Depends(get_producto_service)
+    data: ProductoCreate,
+    svc: ProductoService = Depends(get_producto_service),
+    _: None = Depends(requerir_permiso("productos:crear")),
 ):
     return svc.create(data)
 
@@ -39,13 +42,16 @@ def update_producto(
     producto_id: int,
     data: ProductoUpdate,
     svc: ProductoService = Depends(get_producto_service),
+    _: None = Depends(requerir_permiso("productos:editar")),
 ):
     return svc.update(producto_id, data)
 
 
 @router.delete("/{producto_id}", response_model=ProductoRead)
 def anular_producto(
-    producto_id: int, svc: ProductoService = Depends(get_producto_service)
+    producto_id: int,
+    svc: ProductoService = Depends(get_producto_service),
+    _: None = Depends(requerir_permiso("productos:eliminar")),
 ):
     return svc.anular(producto_id)
 

@@ -10,6 +10,7 @@ import {
 } from "@tanstack/react-table";
 import { listProductos, anularProducto } from "./api";
 import { listCategorias } from "@/modules/categorias/api";
+import { STOCK_BAJO_UMBRAL } from "@/core/constants"; // umbral de stock bajo (6): única fuente de verdad
 import type { Producto } from "./types";
 import Eyebrow from "@/core/components/Eyebrow";
 
@@ -85,6 +86,31 @@ function ProductsManagePage() {
     columnHelper.accessor("stock_total", {
       header: "Stock",
       enableSorting: false,
+      // ALERTA DE STOCK BAJO (solo admin):
+      // badge calculado al renderizar con datos que YA trae el listado
+      // (presentaciones[].stock), sin backend ni estado extra.
+      cell: (info) => {
+        const producto = info.row.original;
+        // hay al menos una variante ACTIVA con stock 1..5 (excluye agotadas)
+        const tieneBajo = producto.presentaciones.some(
+          (p) => p.activo && p.stock > 0 && p.stock < STOCK_BAJO_UMBRAL,
+        );
+        return (
+          <span className="inline-flex items-center gap-2">
+            {info.getValue()}
+            {/* total 0 -> rojo "Agotado"; variante activa en 1..5 -> ámbar "Bajo" */}
+            {producto.stock_total === 0 ? (
+              <span className="px-2 py-0.5 text-xs rounded-full bg-red-900/50 text-red-300 border border-red-500/30">
+                Agotado
+              </span>
+            ) : tieneBajo ? (
+              <span className="px-2 py-0.5 text-xs rounded-full bg-amber-900/50 text-amber-300 border border-amber-500/30">
+                Bajo
+              </span>
+            ) : null}
+          </span>
+        );
+      },
     }),
     columnHelper.accessor("activo", {
       header: "Activo",

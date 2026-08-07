@@ -8,19 +8,24 @@ from backend.modules.ordenes.schemas import (
     OrdenRead,
 )
 from backend.modules.ordenes.uow import OrdenUnitOfWork
+from backend.modules.seguridad.dependencias import tiene_permiso
+from backend.modules.seguridad.modelos import Usuario
 
 
 class OrdenService:
     def __init__(self, session: Session) -> None:# 
         self._session = session
 
-    def confirmar_orden(self, data: ConfirmarOrdenRequest) -> OrdenRead:
+    def confirmar_orden(
+        self, data: ConfirmarOrdenRequest, usuario: Usuario | None = None
+    ) -> OrdenRead:
         with OrdenUnitOfWork(self._session) as uow:
             orden = Orden(
                 nombre=data.nombre,
                 apellido=data.apellido,
                 telefono=data.telefono,
                 email=data.email,
+                usuario_id=usuario.id if usuario is not None else None,
             )
             uow.ordenes.create(orden)
 
@@ -52,12 +57,25 @@ class OrdenService:
 
             return self._armar_respuesta(orden, items_creados)
 
-    def get(self, orden_id: int) -> OrdenRead:
+    def get(self, orden_id: int, usuario: Usuario) -> OrdenRead:
         with OrdenUnitOfWork(self._session) as uow:
             orden = uow.ordenes.get_by_id(orden_id)
             if orden is None:
                 raise HTTPException(status.HTTP_404_NOT_FOUND, "Orden no existe")
+            es_admin = tiene_permiso(usuario, "ordenes:ver_todas")
+            if not es_admin and orden.usuario_id != usuario.id:
+                raise HTTPException(status.HTTP_404_NOT_FOUND, "Orden no existe")
             return self._armar_respuesta(orden, orden.items)
+
+    def listar(self, usuario: Usuario) -> list[OrdenRead]:
+        with OrdenUnitOfWork(self._session) as uow:
+            if not tiene_permiso(usuario, "ordenes:ver_todas"):
+                raise HTTPException(
+                    status.HTTP_403_FORBIDDEN,
+                    "Se requiere el permiso ordenes:ver_todas",
+                )
+            ordenes = uow.ordenes.list_all(limit=1000)
+            return [self._armar_respuesta(o, o.items) for o in ordenes]
 
     @staticmethod
     def _armar_respuesta(orden: Orden, items: list[OrdenItem]) -> OrdenRead:
@@ -72,6 +90,7 @@ class OrdenService:
         ]
         return OrdenRead(
             id=orden.id,
+            usuario_id=orden.usuario_id,
             nombre=orden.nombre,
             apellido=orden.apellido,
             telefono=orden.telefono,

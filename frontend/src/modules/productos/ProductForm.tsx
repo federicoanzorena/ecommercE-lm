@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useQuery } from "@tanstack/react-query";
 import { listCategorias } from "@/modules/categorias/api";
 import { uploadImage } from "@/modules/uploads/api";
+import { STOCK_BAJO_UMBRAL } from "@/core/constants"; // umbral de stock bajo (6): única fuente de verdad
 import type { ProductoCreate } from "./types";
 import type {
   Presentacion,
@@ -60,6 +61,7 @@ function ProductForm({
 
   const [existentes, setExistentes] = useState(existingPresentaciones);
   const [aAnular, setAAnular] = useState<number[]>([]);
+  const [editando, setEditando] = useState<number[]>([]);
   const [aEditar, setAEditar] = useState<Record<number, { color: string; talla: string; stock: number; imagen_url: string | null }>>({});
 
   const { data: categorias } = useQuery({
@@ -127,21 +129,23 @@ function ProductForm({
     const pres = existentes.find((p) => p.id === id);
     if (!pres) return;
     setAEditar({ ...aEditar, [id]: { color: pres.color, talla: pres.talla, stock: pres.stock, imagen_url: pres.imagen_url } });
+    setEditando([...editando, id]);
   }
 
   function handleGuardarEdicion(id: number) {
     const edit = aEditar[id];
     if (!edit) return;
+    // actualiza la fila visible Y mantiene el cambio en aEditar
+    // (aEditar es lo que se envía en toUpdate al guardar el form)
     setExistentes(existentes.map((p) => p.id === id ? { ...p, ...edit } : p));
-    const rest = { ...aEditar };
-    delete rest[id];
-    setAEditar(rest);
+    setEditando(editando.filter((e) => e !== id));
   }
 
   function handleCancelarEdicion(id: number) {
     const rest = { ...aEditar };
     delete rest[id];
     setAEditar(rest);
+    setEditando(editando.filter((e) => e !== id));
   }
 
   function handleFormSubmit(data: ProductoCreate) {
@@ -260,7 +264,7 @@ function ProductForm({
             <div className="space-y-2">
               {existentes.map((p) => (
                 <div key={p.id} className="dark-card flex items-center gap-3 p-3">
-                  {aEditar[p.id] ? (
+                  {editando.includes(p.id) && aEditar[p.id] ? (
                     <>
                       <input
                         value={aEditar[p.id].color}
@@ -287,6 +291,13 @@ function ProductForm({
                     <>
                       <span className="text-zinc-100 text-sm flex-1">{p.color} / {p.talla}</span>
                       <span className="mono-meta">Stock: {p.stock}</span>
+                      {/* ALERTA DE STOCK BAJO: badge sobre la variante EXISTENTE
+                          (p.stock viene de la DB vía el listado de presentaciones) */}
+                      {p.stock === 0 ? (
+                        <span className="px-2 py-0.5 text-xs rounded-full bg-red-900/50 text-red-300 border border-red-500/30">Agotado</span>
+                      ) : p.stock < STOCK_BAJO_UMBRAL ? (
+                        <span className="px-2 py-0.5 text-xs rounded-full bg-amber-900/50 text-amber-300 border border-amber-500/30">Stock bajo</span>
+                      ) : null}
                       <button type="button" onClick={() => handleEditarExistente(p.id)} className="text-cyan-400 hover:text-cyan-300 text-sm">Editar</button>
                       <button type="button" onClick={() => handleAnularExistente(p.id)} className="text-red-400 hover:text-red-300 text-sm">Anular</button>
                     </>
@@ -305,6 +316,13 @@ function ProductForm({
                 <div key={i} className="dark-card flex items-center gap-3 p-3">
                   <span className="text-zinc-100 text-sm flex-1">{v.color} / {v.talla}</span>
                   <span className="mono-meta">Stock: {v.stock}</span>
+                  {/* ALERTA DE STOCK BAJO: badge sobre la variante NUEVA
+                      (v.stock es el valor recién cargado en el form, feedback en vivo) */}
+                  {v.stock === 0 ? (
+                    <span className="px-2 py-0.5 text-xs rounded-full bg-red-900/50 text-red-300 border border-red-500/30">Agotado</span>
+                  ) : v.stock < STOCK_BAJO_UMBRAL ? (
+                    <span className="px-2 py-0.5 text-xs rounded-full bg-amber-900/50 text-amber-300 border border-amber-500/30">Stock bajo</span>
+                  ) : null}
                   {v.imagen_url && <span className="text-green-400 text-sm">IMG OK</span>}
                   <button type="button" onClick={() => handleRemoveVariante(i)} className="text-red-400 hover:text-red-300 text-sm">Quitar</button>
                 </div>

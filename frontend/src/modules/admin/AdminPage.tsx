@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import Eyebrow from "@/core/components/Eyebrow";
+import { useAuth } from "@/modules/seguridad";
 
 function AdminPage() {
+  const { tienePermiso } = useAuth();
   return (
     <div className="p-6">
       <Eyebrow label="Administración" />
@@ -25,13 +27,19 @@ function AdminPage() {
           <p className="text-zinc-400 mt-2">Crear, editar y anular productos</p>
         </Link>
 
-        <div className="glass-card p-6 opacity-40 cursor-not-allowed">
-          <h3 className="text-xl font-semibold text-zinc-500">Usuarios</h3>
-          <p className="text-zinc-600 mt-2">Próximamente</p>
-        </div>
+        {tienePermiso("usuarios:ver") && (
+          <Link
+            to="/admin/usuarios"
+            className="glass-card p-6 hover:border-cyan-400 transition-colors"
+          >
+            <h3 className="text-xl font-semibold text-white">Usuarios</h3>
+            <p className="text-zinc-400 mt-2">
+              Crear, editar y eliminar usuarios; asignar roles y permisos
+            </p>
+          </Link>
+        )}
       </div>
     </div>
   );
 }
-
 export default AdminPage;
