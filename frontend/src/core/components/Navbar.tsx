@@ -54,7 +54,7 @@ function Navbar() {
 
   const claseLink = (to: string, nowrap: boolean, mobile: boolean) =>
     `dark-card text-sm transition-colors ${
-      mobile ? "px-4 py-3 min-h-[44px] flex items-center" : "px-4 py-2"
+      mobile ? "px-4 py-3 min-h-[44px] flex items-center justify-center" : "px-4 py-2"
     }${nowrap ? " whitespace-nowrap" : ""}${
       esActivo(to)
         ? " text-cyan-400 border-cyan-400/60 bg-cyan-400/10"
@@ -64,7 +64,8 @@ function Navbar() {
   const desdeActual = { desde: { pathname } };
 
   return (
-    <nav className="glass-panel border-l-0 border-t-0 border-b border-r-0 px-6 py-4 relative z-50 shadow-none">
+    <>
+      <nav className="glass-panel border-l-0 border-t-0 border-b border-r-0 px-6 py-4 relative z-50 shadow-none">
       <div className="flex items-center justify-between">
         <Link to="/" className="text-xl font-bold text-cyan-400">
           Ecommerce
@@ -152,6 +153,7 @@ function Navbar() {
           </button>
         </div>
       </div>
+      </nav>
 
       {isOpen && (
         <>
@@ -159,7 +161,7 @@ function Navbar() {
             className="md:hidden fixed inset-0 top-[65px] bg-black/50 z-40"
             onClick={() => setIsOpen(false)}
           />
-          <div className="md:hidden fixed top-[65px] right-0 bottom-0 w-64 glass-panel border-l border-t-0 border-b-0 border-r-0 z-50 flex flex-col gap-1 p-4 animate-slide-in">
+          <div className="md:hidden fixed top-[65px] right-3 bg-black border border-cyan-500/30 shadow-2xl z-50 flex flex-col gap-1 p-4 animate-slide-in">
             {navLinks.map((link) => (
               <Link
                 key={link.to}
@@ -188,7 +190,7 @@ function Navbar() {
                   to="/login"
                   state={desdeActual}
                   onClick={() => setIsOpen(false)}
-                  className="btn-primary px-4 py-3 text-sm min-h-[44px] flex items-center justify-center"
+                  className="dark-card px-4 py-3 text-sm min-h-[44px] flex items-center justify-center text-zinc-300 hover:text-cyan-400 hover:border-cyan-400/50"
                 >
                   Ingresar
                 </Link>
@@ -204,7 +206,7 @@ function Navbar() {
           </div>
         </>
       )}
-    </nav>
+    </>
   );
 }
 
