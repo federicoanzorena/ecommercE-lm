@@ -37,6 +37,13 @@ body {
   background: oklch(0 0 0 / 0.4);
 }
 
+/* ── Dark card sólida (modals) ── */
+@utility dark-card-solid {
+  border-radius: 0.75rem;
+  border: 1px solid oklch(0.7 0.15 192 / 0.2);
+  background: oklch(0.16 0.005 285 / 1);
+}
+
 /* ── Input field ── */
 @utility input-field {
   width: 100%;

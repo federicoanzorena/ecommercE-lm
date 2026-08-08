@@ -523,10 +523,10 @@ function ModalUsuario({
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
       onClick={onCerrar}
     >
-      <div
-        className="dark-card w-full max-w-md p-6 space-y-4"
-        onClick={(e) => e.stopPropagation()}
-      >
+        <div
+          className="dark-card-solid w-full max-w-md p-6 space-y-4"
+          onClick={(e) => e.stopPropagation()}
+        >
         <h3 className="text-lg font-semibold text-cyan-400">
           {modal === "crear" ? "Crear usuario" : "Editar usuario"}
         </h3>
