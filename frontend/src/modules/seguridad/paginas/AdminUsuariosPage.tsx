@@ -559,6 +559,7 @@ function FormularioUsuario({
   onEditado: (u: api.UsuarioAdmin) => void;
 }) {
   const esEdicion = modo === "editar";
+  const esSuperadmin = esEdicion && (usuario?.roles.some((r) => r.nombre === "superadmin") ?? false);
   const [email, setEmail] = useState(esEdicion ? usuario?.email ?? "" : "");
   const [nombre, setNombre] = useState(esEdicion ? usuario?.nombre_completo ?? "" : "");
   const [password, setPassword] = useState("");
@@ -578,7 +579,7 @@ function FormularioUsuario({
         const actualizado = await api.actualizarUsuario(usuario.id, {
           nombre: nombre || null,
           ...(password ? { password } : {}),
-          esta_activo: activo,
+          ...(esSuperadmin ? {} : { esta_activo: activo }),
         });
         onEditado(actualizado);
       } else {
@@ -664,7 +665,7 @@ function FormularioUsuario({
         </div>
       )}
 
-      {esEdicion && (
+      {esEdicion && !esSuperadmin && (
         <label className="flex items-center gap-2 text-sm cursor-pointer">
           <input
             type="checkbox"
