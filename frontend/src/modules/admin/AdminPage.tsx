@@ -38,6 +38,20 @@ function AdminPage() {
             </p>
           </Link>
         )}
+
+        {tienePermiso("prediccion:ver") && (
+          <Link
+            to="/admin/prediccion"
+            className="glass-card p-6 hover:border-cyan-400 transition-colors"
+          >
+            <h3 className="text-xl font-semibold text-white">
+              Predicción de demanda
+            </h3>
+            <p className="text-zinc-400 mt-2">
+              Estimar la demanda según día, precio y stock
+            </p>
+          </Link>
+        )}
       </div>
     </div>
   );

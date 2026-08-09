@@ -5,6 +5,7 @@ from backend.modules.prediccion.schemas import (
     PrediccionDemandaResponse,
 )
 from backend.modules.prediccion.service import PrediccionService
+from backend.modules.seguridad.dependencias import requerir_permiso
 
 router = APIRouter()
 
@@ -22,5 +23,6 @@ def get_prediccion_service() -> PrediccionService:
 def predecir_demanda(
     data: PrediccionDemandaRequest,
     svc: PrediccionService = Depends(get_prediccion_service),
+    _: None = Depends(requerir_permiso("prediccion:ver")),
 ):
     return svc.predecir_demanda(data)

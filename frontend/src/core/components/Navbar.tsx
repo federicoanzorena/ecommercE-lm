@@ -36,7 +36,6 @@ function Navbar() {
     { to: "/", label: "Home" },
     { to: "/categories", label: "Categorías" },
     { to: "/orders", label: "Mis órdenes", nowrap: true },
-    { to: "/prediccion", label: "Predicción" },
     ...(tienePermiso("productos:crear") || tienePermiso("usuarios:ver")
       ? [{ to: "/admin", label: "Admin" }]
       : []),

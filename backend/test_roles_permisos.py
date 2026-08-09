@@ -356,3 +356,52 @@ def test_no_eliminar_ultimo_superadmin(cliente: TestClient, headers_admin: dict[
         headers=headers_admin,
     )
     assert resp.status_code == 400
+
+
+def test_prediccion_requiere_permiso(
+    cliente: TestClient, headers_admin: dict[str, str], engine
+):
+    """prediccion:ver: anónimo 401, usuario sin permiso 403, superadmin 200."""
+    with Session(engine) as db:
+        usuario = Usuario(
+            email="cliente@test.com",
+            password_hash=hashear_password("Cliente123"),
+            email_verificado=True,
+        )
+        db.add(usuario)
+        db.flush()
+        rol_usuario = db.exec(select(Rol).where(Rol.nombre == "usuario")).first()
+        if rol_usuario:
+            db.add(UsuarioRol(usuario_id=usuario.id, rol_id=rol_usuario.id))
+        db.commit()
+
+    login = cliente.post(
+        "/auth/login", json={"email": "cliente@test.com", "password": "Cliente123"}
+    )
+    assert login.status_code == 200
+    headers_usuario = {
+        "Authorization": f"Bearer {login.json()['access_token']}"
+    }
+
+    body = {"dia_semana": 1, "precio": 20000, "stock_disponible": 30}
+
+    assert (
+        cliente.post("/api/v1/prediccion/demanda", json=body).status_code == 401
+    )
+    assert (
+        cliente.post(
+            "/api/v1/prediccion/demanda", json=body, headers=headers_usuario
+        ).status_code
+        == 403
+    )
+    assert (
+        cliente.post(
+            "/api/v1/prediccion/demanda", json=body, headers=headers_admin
+        ).status_code
+        == 200
+    )
+
+
+def test_endpoint_protegido_sin_token_devuelve_401(cliente: TestClient):
+    """Regresión: sin token, un endpoint protegido responde 401 y no 500."""
+    assert cliente.post("/api/v1/productos", json={}).status_code == 401

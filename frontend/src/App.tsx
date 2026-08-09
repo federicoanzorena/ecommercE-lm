@@ -133,7 +133,14 @@ function App() {
               </RequierePermiso>
             }
           />
-          <Route path="/prediccion" element={<PrediccionPage />} />
+          <Route
+            path="/admin/prediccion"
+            element={
+              <RequierePermiso permiso="prediccion:ver">
+                <PrediccionPage />
+              </RequierePermiso>
+            }
+          />
         </Routes>
         <Footer />
       </div>

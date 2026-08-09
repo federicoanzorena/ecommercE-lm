@@ -26,6 +26,7 @@ PERMISOS_POR_DEFECTO = [
     ("presentaciones:gestionar", "Gestionar presentaciones (crear, editar, anular)"),
     ("categorias:gestionar", "Gestionar categorías (crear, editar, anular)"),
     ("ordenes:ver_todas", "Ver todas las órdenes"),
+    ("prediccion:ver", "Ver predicción de demanda"),
 ]
 
 ROLES_POR_DEFECTO = {
@@ -43,6 +44,7 @@ ROLES_POR_DEFECTO = {
             "presentaciones:gestionar",
             "categorias:gestionar",
             "ordenes:ver_todas",
+            "prediccion:ver",
         ],
     },
     "admin": {
@@ -58,6 +60,7 @@ ROLES_POR_DEFECTO = {
             "presentaciones:gestionar",
             "categorias:gestionar",
             "ordenes:ver_todas",
+            "prediccion:ver",
         ],
     },
     "vendedor": {

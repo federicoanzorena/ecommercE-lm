@@ -34,6 +34,8 @@ def obtener_usuario_actual(
         detail="Credenciales inválidas",
         headers={"WWW-Authenticate": "Bearer"},
     )
+    if not token:
+        raise credenciales_exception
     try:
         payload = decodificar_token(token)
         usuario_id: str = payload.get("sub")
