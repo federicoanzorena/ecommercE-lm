@@ -5,13 +5,25 @@ Nunca expuesto por HTTP — se corre una sola vez, manualmente.
 Uso: python -m backend.modules.seguridad.crear_admin admin@ejemplo.com contraseñaSegura123
 """
 
+import os
 import sys
 
-from sqlmodel import Session, select
+from sqlmodel import Session, create_engine, select
 
-from .dependencias import engine
+from backend.core.config import settings
+
 from .modelos import Rol, Usuario, UsuarioRol
 from .seguridad import hashear_password
+
+
+def _motor():
+    url = os.environ.get("TARGET_DATABASE_URL") or settings.DATABASE_URL
+    if url.startswith("postgres://"):
+        url = url.replace("postgres://", "postgresql://", 1)
+    return create_engine(url)
+
+
+engine = _motor()
 
 
 def crear_admin(email: str, password: str) -> None:

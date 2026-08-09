@@ -41,3 +41,16 @@ def get_orden(
     usuario: Usuario = Depends(obtener_usuario_actual),
 ):
     return svc.get(orden_id, usuario)
+
+
+@router.get("/{orden_id}/estado")
+def estado_orden(
+    orden_id: int,
+    svc: OrdenService = Depends(get_orden_service),
+):
+    """Estado público de una orden (sin datos sensibles).
+
+    Lo usa el frontend para el polling del checkout guest: solo devuelve
+    el estado, no expone datos del comprador.
+    """
+    return svc.estado_publico(orden_id)

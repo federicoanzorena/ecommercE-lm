@@ -18,7 +18,10 @@ from .email.smtp import EnviadorEmailConsola, EnviadorEmailSMTP
 from .modelos import Usuario
 from .seguridad import decodificar_token
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
+# auto_error=False: la autenticacion queda a cargo de obtener_usuario_actual
+# (que levanta 401 si falta el token); asi obtener_usuario_actual_opcional puede
+# devolver None para checkout guest sin romper los endpoints protegidos.
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login", auto_error=False)
 
 
 def obtener_usuario_actual(

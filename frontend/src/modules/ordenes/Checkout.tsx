@@ -1,25 +1,22 @@
-import { useForm } from "react-hook-form";
-import type { ConfirmarOrdenRequest } from "./types";
+import type { FieldErrors, UseFormRegister } from "react-hook-form";
 
-type CheckoutFormData = Omit<ConfirmarOrdenRequest, "items">;
-
-interface CheckoutProps {
-  onSubmit: (data: CheckoutFormData) => void;
-  isSubmitting: boolean;
+export interface CheckoutFormData {
+  nombre: string;
+  apellido: string;
+  telefono: string;
+  email: string;
+  email_confirmacion: string;
 }
 
-function Checkout({ onSubmit, isSubmitting }: CheckoutProps) {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<CheckoutFormData>();
+interface CheckoutProps {
+  register: UseFormRegister<CheckoutFormData>;
+  errors: FieldErrors<CheckoutFormData>;
+  email?: string;
+}
 
-  const email = watch("email");
-
+function Checkout({ register, errors, email }: CheckoutProps) {
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <div className="space-y-4">
       <div>
         <label className="input-label">Nombre</label>
         <input
@@ -84,15 +81,7 @@ function Checkout({ onSubmit, isSubmitting }: CheckoutProps) {
           </p>
         )}
       </div>
-
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        {isSubmitting ? "Procesando..." : "Realizar compra"}
-      </button>
-    </form>
+    </div>
   );
 }
 

@@ -13,6 +13,8 @@ from backend.modules.categorias.router import router as categorias_router
 from backend.modules.productos.router import router as productos_router
 from backend.modules.presentaciones.router import router as presentaciones_router
 from backend.modules.ordenes.router import router as ordenes_router
+from backend.modules.pagos.router import router as pagos_router
+from backend.modules.pagos.router import webhook_router as mercadopago_webhook_router
 from backend.modules.prediccion.router import router as prediccion_router
 from backend.modules.uploads.router import router as uploads_router
 from backend.modules.seguridad.router import router as seguridad_router
@@ -59,6 +61,8 @@ app.include_router(categorias_router, prefix="/api/v1/categorias", tags=["catego
 app.include_router(productos_router, prefix="/api/v1/productos", tags=["productos"])
 app.include_router(presentaciones_router, prefix="/api/v1/presentaciones", tags=["presentaciones"])
 app.include_router(ordenes_router, prefix="/api/v1/ordenes", tags=["ordenes"])
+app.include_router(pagos_router, tags=["pagos"])
+app.include_router(mercadopago_webhook_router)
 app.include_router(prediccion_router, prefix="/api/v1/prediccion", tags=["prediccion"])
 app.include_router(uploads_router, prefix="/api/v1/uploads", tags=["uploads"])
 app.include_router(seguridad_router, tags=["autenticacion"])

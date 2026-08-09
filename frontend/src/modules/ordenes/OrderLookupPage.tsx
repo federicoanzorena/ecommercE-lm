@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getOrden } from "./api";
+import { etiquetaEstadoOrden } from "@/modules/pagos/estado";
 import Eyebrow from "@/core/components/Eyebrow";
 
 function OrderLookupPage() {
@@ -60,7 +61,10 @@ function OrderLookupPage() {
             </p>
             <p className="text-sm text-zinc-400">{data.email}</p>
             <p className="text-sm text-zinc-400">
-              Estado: <span className="text-cyan-400">{data.estado}</span>
+              Estado:{" "}
+              <span className="text-cyan-400">
+                {etiquetaEstadoOrden(data.estado)}
+              </span>
             </p>
             <p className="text-sm text-zinc-400">
               Fecha: {new Date(data.fecha).toLocaleString()}

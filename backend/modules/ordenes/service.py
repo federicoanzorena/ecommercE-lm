@@ -77,6 +77,13 @@ class OrdenService:
             ordenes = uow.ordenes.list_all(limit=1000)
             return [self._armar_respuesta(o, o.items) for o in ordenes]
 
+    def estado_publico(self, orden_id: int) -> dict:
+        with OrdenUnitOfWork(self._session) as uow:
+            orden = uow.ordenes.get_by_id(orden_id)
+            if orden is None:
+                raise HTTPException(status.HTTP_404_NOT_FOUND, "Orden no existe")
+            return {"orden_id": orden.id, "estado": orden.estado}
+
     @staticmethod
     def _armar_respuesta(orden: Orden, items: list[OrdenItem]) -> OrdenRead:
         items_read = [
