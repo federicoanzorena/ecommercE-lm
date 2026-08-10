@@ -5,6 +5,7 @@ __pycache__/
 *.pyc
 # Variables de entorno (contiene credenciales, aunque sean de dev)
 .env
+AGENTS.local.md
 # Base de datos SQLite local
 *.db
 backend/static/uploads/*
